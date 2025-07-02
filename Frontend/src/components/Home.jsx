@@ -3,8 +3,10 @@ import { Button } from "../components/ui/button"
 import { ModeToggle } from "./mode-toggle";
 import { Input } from "./ui/input";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+  const navigate = useNavigate();
   return (
     <>
       <nav className="bg-muted px-6 py-4">
@@ -73,12 +75,43 @@ export default function Home() {
       </nav>
 
 
-      <div className="bg-primary h-screen w-full flex flex-row justify-start items-center gap-10">
-        <div className="h-[400px] w-[30%] bg-pink-200 rounded-2xl ml-8"></div>
-         <div className="h-[400px] w-[30%] bg-pink-200 rounded-2xl"></div>
-          <div className="h-[400px] w-[30%] bg-pink-200 rounded-2xl"></div>
-
-
+      <div className="bg-primary h-screen w-full flex flex-row justify-start items-center  ">
+        <div className="h-[300px] w-[30%] bg-gradient-to-br from-pink-300 via-pink-200 to-pink-100 shadow-xl rounded-3xl ml-8 flex justify-start flex-col pl-10 pr-10 pt-10 gap-6 transition-transform transform hover:scale-105 duration-300">
+         <p className="text-3xl font-extrabold text-gray-900">📊 Account Manager</p>
+         <p className="text-base text-gray-800 leading-relaxed">
+           Seamlessly track, manage, and organize your financial activities.<br />
+           Stay on top of your payments with time and date sorting.
+         </p>
+         <button
+           onClick={() => navigate("/data")}
+           className="w-full h-10 bg-green-600 hover:bg-green-700 text-white font-medium rounded-xl transition-colors duration-200"
+         >
+           Get Started
+         </button>
+        </div>
+        <div className="h-[300px] w-[30%] bg-gradient-to-br from-pink-300 via-pink-200 to-pink-100 shadow-xl rounded-3xl ml-8 flex justify-start flex-col pl-10 pr-10 pt-10 gap-6 transition-transform transform hover:scale-105 duration-300">
+         <p className="text-3xl font-extrabold text-gray-900">📊 Account Manager</p>
+         <p className="text-base text-gray-800 leading-relaxed">
+           Seamlessly track, manage, and organize your financial activities.<br />
+           Stay on top of your payments with time and date sorting.
+         </p>
+         <button
+           onClick={() => navigate("/track")}
+           className="w-full h-10 bg-green-600 hover:bg-green-700 text-white font-medium rounded-xl transition-colors duration-200"
+         >
+           Get Started
+         </button>
+        </div>
+        <div className="h-[300px] w-[30%] bg-gradient-to-br from-pink-300 via-pink-200 to-pink-100 shadow-xl rounded-3xl ml-8 flex justify-start flex-col pl-10 pr-10 pt-10 gap-6 transition-transform transform hover:scale-105 duration-300">
+         <p className="text-3xl font-extrabold text-gray-900">📊 Account Manager</p>
+         <p className="text-base text-gray-800 leading-relaxed">
+           Seamlessly track, manage, and organize your financial activities.<br />
+           Stay on top of your payments with time and date sorting.
+         </p>
+         <button className="w-full h-10 bg-green-600 hover:bg-green-700 text-white font-medium rounded-xl transition-colors duration-200">
+           Get Started
+         </button>
+        </div>
       </div>
     </>
   );
