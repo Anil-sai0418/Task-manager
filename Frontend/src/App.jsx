@@ -5,8 +5,9 @@ import Home from './components/Home';
 import List from './components/List';
 import Data from './components/Data'; // ✅ Add this line
 import Menu from './components/menu';
-import Track from './components/Task'
+
 import './App.css';
+import Add from './components/Add';
 
 
 function App() {
@@ -20,7 +21,8 @@ function App() {
         <Route path = '/List' element ={<List/>}/>
         <Route path='/Data' element = {<Data/>}/>
         <Route path= '/menu'element = {<Menu/>}/>
-        <Route path='/Track'element = {<Track/>}/>
+        <Route path='/add' element = {<Add/>}/>
+        
       </Routes>
     </BrowserRouter>
   );
