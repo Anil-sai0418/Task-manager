@@ -5,10 +5,10 @@ import Home from './components/Home';
 import List from './components/List';
 import Data from './components/Data';
 import Menu from './components/menu';
-import Track from './components/Task'
+
 import './App.css';
-import { useState } from "react";
-import { UserContext } from './context/usercontext';
+import Add from './components/Add';
+
 
 function App() {
   const [loggedUser, setloggedUser] = useState(() => {
@@ -17,16 +17,19 @@ function App() {
   });
 
   return (
-    <UserContext.Provider value={{ loggedUser, setloggedUser }}>
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<Login />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='/home' element={<Home />} />
-        </Routes>
-      </BrowserRouter>
-    </UserContext.Provider>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Login/>}></Route>
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+        <Route path = '/home' element ={<Home/>}/>
+        <Route path = '/List' element ={<List/>}/>
+        <Route path='/Data' element = {<Data/>}/>
+        <Route path= '/menu'element = {<Menu/>}/>
+        <Route path='/add' element = {<Add/>}/>
+        
+      </Routes>
+    </BrowserRouter>
   );
 }
 
