@@ -8,13 +8,15 @@ import Menu from './components/menu';
 
 import './App.css';
 import Add from './components/Add';
+import NotFound from './components/404';
 
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Login/>}></Route>
+        <Route path='*' element={<NotFound/>}></Route>
+        <Route path='/' element={<Home/>}></Route>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path = '/home' element ={<Home/>}/>

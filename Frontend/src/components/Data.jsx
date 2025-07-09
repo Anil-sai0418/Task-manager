@@ -190,20 +190,18 @@ export default function Viewdata() {
                         {showDropdown && (
                             <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
                                 <div className="py-2">
-                                    <div className="px-4 py-2 text-sm font-medium text-gray-700 border-b border-gray-100">
-                                        My Account
-                                    </div>
-                                    <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                                    
+                                    <button className="w-full text-left px-4 py-2 text-large  text-gray-700 hover:bg-gray-300">
                                         Save as pdf
                                     </button>
-                                    <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
-                                        share via link
+                                    <button className="w-full text-left px-4 py-2 text-large text-gray-700 hover:bg-gray-300">
+                                        Share via link
                                     </button>
-                                    <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
-                                        rate this app
+                                    <button className="w-full text-left px-4 py-2 text-large text-gray-700 hover:bg-gray-300">
+                                        More Details
                                     </button>
-                                    <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
-                                        more concepts
+                                    <button className="w-full text-left px-4 py-2 text-large text-gray-700 hover:bg-gray-300">
+                                        Log out
                                     </button>
                                 </div>
                             </div>
@@ -383,30 +381,30 @@ export default function Viewdata() {
                     <div className="flex gap-4">
                         <button
                             onClick={() => setActiveTab("all")}
-                            className={`px-6 py-3 rounded-xl font-semibold transition ${
-                                activeTab === "all"
-                                    ? "bg-green-500 text-white shadow-md"
-                                    : "bg-gray-200 text-gray-800"
+                            className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 ease-in-out ${
+                              activeTab === "all"
+                                ? "bg-blue-500 text-white shadow-md scale-105"
+                                : "bg-gray-200 text-gray-800"
                             }`}
                         >
                             All Transactions
                         </button>
                         <button
                             onClick={() => setActiveTab("credit")}
-                            className={`px-6 py-3 rounded-xl font-semibold transition ${
-                                activeTab === "credit"
-                                    ? "bg-green-500 text-white shadow-md"
-                                    : "bg-gray-200 text-gray-800"
+                            className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 ease-in-out ${
+                              activeTab === "credit"
+                                ? "bg-green-500 text-white shadow-md scale-105"
+                                : "bg-gray-200 text-gray-800"
                             }`}
                         >
                             Credits Only
                         </button>
                         <button
                             onClick={() => setActiveTab("debit")}
-                            className={`px-6 py-3 rounded-xl font-semibold transition ${
-                                activeTab === "debit"
-                                    ? "bg-green-500 text-white shadow-md"
-                                    : "bg-gray-200 text-gray-800"
+                            className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 ease-in-out ${
+                              activeTab === "debit"
+                                ? "bg-red-500 text-white shadow-md scale-105"
+                                : "bg-gray-200 text-gray-800"
                             }`}
                         >
                             Debits Only
@@ -460,21 +458,27 @@ export default function Viewdata() {
                 </div>
             </div>
 
-            <div className="w-full flex justify-center items-center py-6">
-                <div className="bg-white rounded-xl shadow-md w-[50%] flex justify-between items-stretch py-4 px-10">
-                    <div className="flex items-center gap-2 text-green-600 text-lg font-semibold">
-                        Credited <span>📈</span> (amount)
-                    </div>
-                    <div className="w-[1px] bg-gray-300"></div>
-                    <div className="text-red-500 text-lg font-semibold flex items-center">
-                        Debited <span>📉</span> (amount)
-                    </div>
-                    <div className="w-[1px] bg-gray-300"></div>
-                    <div className="flex flex-col justify-between items-center text-blue-500 text-lg font-semibold">
-                        <span>Total</span> (amount)
-                    </div>
+          <div className="flex justify-center py-6">
+            <div className="bg-white rounded-lg p-4 shadow w-1/2">
+              <div className="grid gap-4 md:grid-cols-3">
+                {/* Credit Box */}
+                <div className="bg-green-100 dark:bg-green-800 rounded-lg p-4 text-center shadow hover:shadow-lg transition">
+                  <p className="text-[16px] font-semibold text-green-700 dark:text-green-200">Credit 📈</p>
+                  <p className="text-lg font-semibold text-green-900 dark:text-green-100">₹ 0</p>
                 </div>
+                {/* Debit Box */}
+                <div className="bg-red-100 dark:bg-red-800 rounded-lg p-4 text-center shadow hover:shadow-lg transition">
+                  <p className="text-[16px] font-semibold text-red-700 dark:text-red-200">Debit 📉</p>
+                  <p className="text-lg font-semibold text-red-900 dark:text-red-100">₹ 0</p>
+                </div>
+                {/* Balance Box */}
+                <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-lg p-4 text-center shadow hover:shadow-lg transition">
+                  <p className="text-sm font-medium">Balance</p>
+                  <p className="text-lg font-semibold">₹ 0</p>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
     )
 }
