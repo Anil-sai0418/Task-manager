@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { UserContext } from '../context/usercontext';
 
@@ -6,6 +6,7 @@ export default function Login() {
   const { loggedUser, setloggedUser } = useContext(UserContext);
   console.log(loggedUser)
 
+  const navigate = useNavigate();
 
   const [usercreds, setusercreds] = useState({
     email: "",
@@ -24,54 +25,41 @@ export default function Login() {
     }));
   }
 
-  function handlesubmit(event) {
-    
+  async function handlesubmit(event) {
     event.preventDefault();
 
-   fetch("http://localhost:8000/login", {
-   method: "POST",
-   body: JSON.stringify(usercreds),
-   headers: {
-    "Content-Type": "application/json"
-   }
- })
-      .then((response) => {
-        if (response.status === 404) {
-          setmessage({ type: "error", text: "Username or email does not exist!" });
-          setTimeout(() => setmessage({ type: "", text: "" }), 3000);
-          return;
-        } else if (response.status === 403) {
-          setmessage({ type: "error", text: "Incorrect password" });
-          setTimeout(() => setmessage({ type: "", text: "" }), 3000);
-          return;
-        } else if (response.status === 200) {
-          alert("successfully loggedin")
-        setmessage({tepe:"success",text:"successfuly loggedin"});
-        setTimeout(() => {
-          setmessage({tepe:"",text:""});
-        }, 3000);
-          return response.json(); 
+    try {
+      const response = await fetch("http://localhost:8000/login", {
+        method: "POST",
+        body: JSON.stringify(usercreds),
+        headers: {
+          "Content-Type": "application/json"
         }
-      })
-      .then((data) => {
-        console.log(data.user)
+      });
 
+      const data = await response.json();
+
+      if (response.status === 404) {
+        setmessage({ type: "error", text: "Username or email does not exist!" });
+      } else if (response.status === 403) {
+        setmessage({ type: "error", text: "Incorrect password" });
+      } else if (response.status === 200) {
+        alert("Successfully logged in");
+        setmessage({ type: "success", text: "Successfully logged in" });
         localStorage.setItem("account-user", JSON.stringify(data));
         setloggedUser(data);
-        
-        setmessage({ type: "success", text: data.message });
         setusercreds({ email: "", password: "" });
+        navigate("/dashboard");
+      }
 
-        setTimeout(() => {
-          setmessage({ type: "", text: "" });
-        }, 3000);
-
-      })
-      .catch((err) => {
-        setmessage({ type: "error", text: "Something went wrong!" });
-        console.error("Login error:", err);
-        setTimeout(() => setmessage({ type: "", text: "" }), 3000);
-      });
+      setTimeout(() => {
+        setmessage({ type: "", text: "" });
+      }, 3000);
+    } catch (err) {
+      setmessage({ type: "error", text: "Something went wrong!" });
+      console.error("Login error:", err);
+      setTimeout(() => setmessage({ type: "", text: "" }), 3000);
+    }
   }
 
   return (
