@@ -9,6 +9,7 @@ import Menu from './components/menu';
 
 import './App.css';
 import Add from './components/Add';
+import { UserContext } from './context/Usercontext';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
   });
 
   return (
+    <UserContext.Provider value={{loggedUser,setloggedUser}}>
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Login/>}></Route>
@@ -31,6 +33,7 @@ function App() {
         
       </Routes>
     </BrowserRouter>
+    </UserContext.Provider>
   );
 }
 
