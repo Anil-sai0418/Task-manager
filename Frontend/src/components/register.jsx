@@ -44,7 +44,7 @@ export default function Register(){
 
     console.log(userDetails);
     
-    fetch("http://localhost:8000/register", {
+    fetch("https://task-manager-by-anil.onrender.com/register", {
       method: "POST",
       body: JSON.stringify(userDetails),
       headers: {

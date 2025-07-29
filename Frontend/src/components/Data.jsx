@@ -114,7 +114,7 @@ export default function Viewdata() {
     useEffect(() => {
         const fetchTransactions = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/transactions/${params.id}`);
+                const response = await fetch(`https://task-manager-by-anil.onrender.com/transactions/${params.id}`);
                 const data = await response.json();
                 if (data.success) {
                     setTransactions(
@@ -268,7 +268,7 @@ export default function Viewdata() {
             type: transactionType
         };
 
-        fetch("http://localhost:8000/credit-transaction", {
+        fetch("https://task-manager-by-anil.onrender.com/credit-transaction", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -297,7 +297,7 @@ export default function Viewdata() {
                     setAmount('');
                     setCreditDate('');
                     setCreditTime('');
-                    fetch(`http://localhost:8000/transactions/${params.id}`)
+                    fetch(`https://task-manager-by-anil.onrender.com/transactions/${params.id}`)
                         .then((res) => res.json())
                         .then((data) => {
                             if (data.success) {
@@ -365,7 +365,7 @@ export default function Viewdata() {
             return;
         }
 
-        fetch("http://localhost:8000/debit-transaction", {
+        fetch("https://task-manager-by-anil.onrender.com/debit-transaction", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -401,7 +401,7 @@ export default function Viewdata() {
                     setDebitAmount('');
                     setDebitDate('');
                     setDebitTime('');
-                    fetch(`http://localhost:8000/transactions/${params.id}`)
+                    fetch(`https://task-manager-by-anil.onrender.com/transactions/${params.id}`)
                         .then((res) => res.json())
                         .then((data) => {
                             if (data.success) {
@@ -453,7 +453,7 @@ export default function Viewdata() {
             return;
         }
         try {
-            const res = await fetch(`http://localhost:8000/transaction/${id}`, {
+            const res = await fetch(`https://task-manager-by-anil.onrender.com/transaction/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -464,7 +464,7 @@ export default function Viewdata() {
             if (data.success) {
                 alert("Transaction updated successfully");
                 setEditModalData(null);
-                fetch(`http://localhost:8000/transactions/${params.id}`)
+                fetch(`https://task-manager-by-anil.onrender.com/transactions/${params.id}`)
                     .then((res) => res.json())
                     .then((data) => {
                         if (data.success) {
@@ -493,7 +493,7 @@ export default function Viewdata() {
     const handleDeleteTransaction = async (id) => {
         if (!window.confirm("Are you sure you want to delete this transaction?")) return;
         try {
-            const res = await fetch(`http://localhost:8000/transaction/${id}`, {
+            const res = await fetch(`https://task-manager-by-anil.onrender.com/transaction/${id}`, {
                 method: "DELETE",
             });
             const data = await res.json();

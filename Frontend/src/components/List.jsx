@@ -55,7 +55,7 @@ export default function List() {
   // Save profile handler
   const handleSaveProfile = async () => {
     try {
-      const response = await fetch("http://localhost:8000/update-profile", {
+      const response = await fetch("https://task-manager-by-anil.onrender.com/update-profile", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
@@ -102,7 +102,7 @@ export default function List() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/get-profile/${localStorage2.user.id}`);
+        const res = await fetch(`https://task-manager-by-anil.onrender.com/get-profile/${localStorage2.user.id}`);
         const data = await res.json();
         if (data.success) {
           setUserProfile({
@@ -125,7 +125,7 @@ export default function List() {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/get-task/${localStorage2.user.id}`);
+        const response = await fetch(`https://task-manager-by-anil.onrender.com/get-task/${localStorage2.user.id}`);
         const data = await response.json();
         if (response.ok) {
           setNames(data.tasks);
@@ -161,7 +161,7 @@ export default function List() {
     }
 
     try {
-      const response = await fetch('http://localhost:8000/create-task', {
+      const response = await fetch('https://task-manager-by-anil.onrender.com/create-task', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -180,7 +180,7 @@ export default function List() {
         console.log(data);
         alert('Task created successfully!');
         // Refresh task list
-        const updatedRes = await fetch(`http://localhost:8000/get-task/${localStorage2.user.id}`);
+        const updatedRes = await fetch(`https://task-manager-by-anil.onrender.com/get-task/${localStorage2.user.id}`);
         const updatedData = await updatedRes.json();
         if (updatedRes.ok) {
           setNames(updatedData.tasks);
@@ -212,7 +212,7 @@ export default function List() {
     if (!confirmDelete) return;
 
     try {
-      const response = await fetch(`http://localhost:8000/delete-task`, {
+      const response = await fetch(`https://task-manager-by-anil.onrender.com/delete-task`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -689,7 +689,7 @@ export default function List() {
                     }
 
                     try {
-                      const response = await fetch("http://localhost:8000/update-task", {
+                      const response = await fetch("https://task-manager-by-anil.onrender.com/update-task", {
                         method: "PUT",
                         headers: {
                           "Content-Type": "application/json",
@@ -698,7 +698,7 @@ export default function List() {
                       });
                       const data = await response.json();
                       if (response.ok && data.success) {
-                        const refreshed = await fetch("http://localhost:8000/get-all-tasks");
+                        const refreshed = await fetch("https://task-manager-by-anil.onrender.com/get-all-tasks");
                         const refreshedData = await refreshed.json();
                         if (refreshed.ok && refreshedData.tasks) {
                           setNames(refreshedData.tasks);

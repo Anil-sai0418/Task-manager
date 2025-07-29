@@ -92,6 +92,10 @@ app.post('/register', async (req, res) => {
     }
 });
 
+app.get("/" , ()=> {
+    console.log("running ...")
+})
+
 //  add a post by using + button
 app.post('/create-task', async (req, res) => {
     try {
