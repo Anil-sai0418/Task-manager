@@ -13,6 +13,18 @@ const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
+    },
+    phone: {
+        type: String,
+        default: ''
+    },
+    address: {
+        type: String,
+        default: ''
+    },
+    profileImage: {
+        type: String,
+        default: ''
     }
 });
 
