@@ -1,7 +1,7 @@
 import { Eye, EyeOff } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
-import { UserContext } from '../context/usercontext';
+import { UserContext } from '../context/Usercontext';
 // eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
 

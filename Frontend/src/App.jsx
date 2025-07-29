@@ -5,7 +5,6 @@ import Register from './components/register';
 import Home from './components/Home';
 import List from './components/List';
 import Data from './components/Data';
-import Menu from './components/menu';
 
 import './App.css';
 import Add from './components/Add';
@@ -37,7 +36,7 @@ function App() {
         <Route path='/home' element={<ProtectedRoute><Home/></ProtectedRoute>} />
         <Route path='/List' element={<ProtectedRoute><List/></ProtectedRoute>} />
         <Route path='/List/:id' element={<ProtectedRoute><Data/></ProtectedRoute>} />
-        <Route path='/menu' element={<ProtectedRoute><Menu/></ProtectedRoute>} />
+       
         <Route path='/add' element={<ProtectedRoute><Add/></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
