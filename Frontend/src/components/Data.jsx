@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 // html2pdf.js will be loaded dynamically from CDN
 import { Menu, Plus, Search, ChevronDown, X, Filter, Calendar, DollarSign, Clock, ArrowUpDown } from 'lucide-react';
 import { useParams } from 'react-router-dom';
-import { Input } from './ui/Input';
+import { Input } from './ui/input';
 
 export default function Viewdata() {
     // Ref for the section to export
