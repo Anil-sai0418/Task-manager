@@ -2,12 +2,14 @@ import React, { useState, useRef, useEffect } from 'react';
 // For PDF export
 // html2pdf.js will be loaded dynamically from CDN
 import { Menu, Plus, Search, ChevronDown, X, Filter, Calendar, DollarSign, Clock, ArrowUpDown } from 'lucide-react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Input } from './ui/input';
+
 
 export default function Viewdata() {
     // Ref for the section to export
     const pdfRef = useRef(null);
+    const navigate = useNavigate()
 
     // PDF download handler
     const handleDownloadPDF = async () => {
@@ -516,9 +518,9 @@ export default function Viewdata() {
                     <p className="text-xl font-bold text-blue-600">Task Manager</p>
                     <button
                         onClick={() => setShowMobileMenu(!showMobileMenu)}
-                        className="lg:hidden p-2 rounded-lg border border-gray-300 hover:bg-gray-50"
+                        className="lg:hidden p-2 rounded-lg border border-green-100 hover:bg-green-400"
                     >
-                        <Menu className="h-5 w-5" />
+                        <Menu className="h-5 w-5 " />
                     </button>
                 </div>
 
@@ -562,19 +564,19 @@ export default function Viewdata() {
                         Debit
                     </button>
 
-                    <div className="relative" ref={dropdownRef}>
+                    <div className="relative " ref={dropdownRef}>
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
                                 setShowDropdown(prev => !prev);
                             }}
-                            className="bg-blue-400 hover:bg-blue-600 text-white text-sm md:text-base px-4 py-2 md:px-6 md:py-3 rounded-lg flex items-center gap-2"
+                            className="bg-blue-400 hover:bg-blue-600 text-white  text-sm md:text-base px-4 py-2 md:px-6 md:py-3 rounded-lg flex items-center gap-2"
                         >
                             <span>open</span>
                             <ChevronDown className="h-4 w-4" />
                         </button>
                         {showDropdown && (
-                            <div className="absolute right-0 top-full mt-2 w-52 bg-white rounded-xl shadow-lg ring-1 ring-black/5 z-10">
+                            <div className="absolute right-0 top-full mt-2 w-52 rounded-xl shadow-lg ring-1 ring-black/5 z-10">
                                 <div className="py-2">
                                     <button
                                         className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 text-[15px] font-medium"
@@ -618,7 +620,11 @@ export default function Viewdata() {
                                     </button>
                                     <button
                                         onClick={() => {
-                                            window.location.href = "/login";
+                                            localStorage.removeItem("account-user")
+                                            navigate('/login')
+                                            location.reload
+
+
                                         }}
                                         className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 text-[15px] font-medium"
                                     >
@@ -748,7 +754,8 @@ export default function Viewdata() {
             {/* Mobile Menu */}
             {showMobileMenu && (
                 <div className="lg:hidden fixed inset-0 z-40">
-                    <div className="fixed inset-0 bg-black/30" onClick={() => setShowMobileMenu(false)} />
+                    
+                    <div className="fixed inset-0  bg-black/30" onClick={() => setShowMobileMenu(false)} />
                     <div className="fixed bottom-0 left-0 w-full sm:w-96 bg-white shadow-lg z-50 p-6 rounded-t-2xl">
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-lg font-semibold">Menu</h2>
@@ -791,10 +798,10 @@ export default function Viewdata() {
                                         className="w-full bg-blue-400 hover:bg-blue-600 text-white text-base px-4 py-3 rounded-lg flex items-center justify-between"
                                     >
                                         <span>open</span>
-                                        <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${showMobileDropdown ? 'rotate-180' : ''}`} />
+                                        <ChevronDown className={`h-4 w-4  transition-transform duration-200 ${showMobileDropdown ? 'rotate-180' : ''}`} />
                                     </button>
                                     {showMobileDropdown && (
-                                        <div className="mt-2 w-full bg-white rounded-xl overflow-hidden">
+                                        <div className="mt-2 w-full   rounded-xl overflow-hidden">
                                             <button
                                                 className="w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-100 text-[15px] font-medium flex items-center gap-3"
                                                 onClick={() => {

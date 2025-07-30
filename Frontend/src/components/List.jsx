@@ -426,6 +426,7 @@ export default function List() {
                         }
                         // Redirect to login page (ensure lowercase path)
                         navigate('/login', { replace: true });
+                        location.reload()
                       }}
                       className="flex-1 bg-rose-600 hover:bg-rose-700 text-white py-2 rounded-lg text-sm font-semibold shadow-md"
                     >
