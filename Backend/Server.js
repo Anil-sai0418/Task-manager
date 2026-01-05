@@ -16,10 +16,19 @@ app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ extended: true, limit: '5mb' }));
 
 
-mongoose.connect(process.env.MONGO_URI)
-
-.then(() => console.log("MongoDB is connected"))
-.catch(err => console.log("MongoDB error:", err)); 
+mongoose.connect(process.env.MONGO_URI, {
+    serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of 30s
+    socketTimeoutMS: 45000,
+})
+.then(() => console.log("✅ MongoDB is connected successfully!"))
+.catch(err => {
+    console.error("❌ MongoDB connection error:", err.message);
+    console.error("Please check:");
+    console.error("1. Your internet connection");
+    console.error("2. MongoDB Atlas IP whitelist settings");
+    console.error("3. Your cluster is running (not paused)");
+    console.error("4. Your connection string is correct");
+}); 
 
 
 app.post('/login', async (req, res) => {
@@ -142,8 +151,12 @@ app.get('/get-task/:userId', async (req, res) => {
         const { userId } = req.params;
         const tasks = await Task.find({ userId: userId });
 
+        // Return empty array for new users - this is not an error!
         if (!tasks || tasks.length === 0) {
-            return res.status(404).json({ message: "No tasks found for this user" });
+            return res.status(200).json({
+                message: "No tasks yet",
+                tasks: []
+            });
         }
 
         const enrichedTasks = await Promise.all(
@@ -290,8 +303,13 @@ app.get('/transactions/:taskId', async (req, res) => {
 
         const transactions = await TransactionModel.find({ taskId }).populate("taskId")
 
+        // Return empty array for new tasks - this is not an error!
         if (!transactions || transactions.length === 0) {
-            return res.status(404).json({ message: "No transactions found for this task", success: false });
+            return res.status(200).json({
+                success: true,
+                message: "No transactions yet",
+                transactions: []
+            });
         }
 
         res.status(200).json({

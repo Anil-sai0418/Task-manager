@@ -2,6 +2,7 @@ import { Menu, Inbox } from "lucide-react";
 import { Button } from "../components/ui/button"
 import { ModeToggle } from "./mode-toggle";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 // eslint-disable-next-line no-unused-vars
@@ -10,6 +11,17 @@ import { motion } from "framer-motion";
 
 export default function Home() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Enter") {
+        handleGetStartedClick();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   function handleGetStartedClick() {
     if (localStorage.getItem('account-user')) {
@@ -42,25 +54,10 @@ export default function Home() {
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-6 ">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant={"secondary"} size={"icon"}>
-                  <Menu />
-                </Button>
-              </SheetTrigger>
-              <SheetContent>
-                <SheetHeader>
-                  <SheetTitle>anil</SheetTitle>
-                </SheetHeader>
-                <div className="space-y-3 pt-4">
-                  <div className="flex items-center gap-4 px-2 py-3 rounded-md hover:bg-muted transition-colors cursor-pointer">
-                    <Inbox className="h-6 w-6 text-primary" />
-                    <span className="text-base font-medium text-foreground">Home</span>
-                  </div>
-                </div>
-              </SheetContent>
-            </Sheet>
-            <div className="text-2xl text-green-500 font-bold">Task Manager</div>
+           
+            <div className="text-xl sm:text-2xl md:text-3xl text-green-500 font-extrabold tracking-wide">
+              Task Manager
+            </div>
           </div>
           <div className="flex items-center gap-4">
             <ModeToggle />
@@ -78,10 +75,10 @@ export default function Home() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="min-h-screen w-full flex items-center justify-center px-4 py-20 sm:py-32"
+        className="min-h-screen w-full flex items-center justify-center px-4 py-24 sm:py-32"
       >
 
-        <div className="text-center space-y-6">
+        <div className="text-center space-y-5 sm:space-y-6 max-w-xl w-full">
           <motion.h1
             className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 dark:text-white"
             style={{ textShadow: "1px 1px 3px rgba(0,0,0,0.5)" }}
@@ -102,7 +99,8 @@ export default function Home() {
           </motion.p>
           <motion.button
             onClick={handleGetStartedClick}
-            className="w-[80%] sm:w-[60%] md:w-[40%] lg:w-[30%] py-3 px-6 bg-green-400 text-white font-semibold text-lg rounded-full shadow-lg transition-all duration-300 ease-in-out"
+            tabIndex={0}
+            className="w-[45%] sm:w-[40%] md:w-[55%] lg:w-[30%] py-3.5 sm:py-3 px-5 sm:px-6 bg-green-500 hover:bg-green-600 active:scale-95 text-white font-semibold text-base sm:text-lg rounded-full shadow-xl focus:outline-none focus:ring-4 focus:ring-green-300 transition-all duration-300 ease-in-out"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7, duration: 0.6 }}

@@ -119,3 +119,17 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Toast positioning fix */
+[data-sonner-toaster] {
+  z-index: 9999 !important;
+}
+
+[data-sonner-toast] {
+  margin-top: 8px !important;
+  margin-right: 8px !important;
+}
+
+.toast-custom {
+  z-index: 9999 !important;
+}

@@ -2,8 +2,11 @@ import { Eye, EyeOff } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { UserContext } from '../context/Usercontext';
+import { toast } from 'sonner';
 // eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
+import API_BASE_URL from '../config/api';
+
 
 export default function Login() {
   const { loggedUser, setloggedUser } = useContext(UserContext);
@@ -33,7 +36,7 @@ export default function Login() {
     event.preventDefault();
 
     try {
-      const response = await fetch("https://task-manager-by-anil.onrender.com/login", {
+      const response = await fetch(`${API_BASE_URL}/login`, {
         method: "POST",
         body: JSON.stringify(usercreds),
         headers: {
@@ -48,7 +51,7 @@ export default function Login() {
       } else if (response.status === 403) {
         setmessage({ type: "error", text: "Incorrect password" });
       } else if (response.status === 200) {
-        alert("Successfully logged in");
+        toast.success("Successfully logged in");
         setmessage({ type: "success", text: "Successfully logged in" });
         localStorage.setItem("account-user", JSON.stringify(data));
         setloggedUser(data);
@@ -67,59 +70,98 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-green-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-[#050b14] px-4">
       <motion.section
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-md bg-white rounded-xl border border-gray-200 p-10 shadow-xl text-black"
+        initial={{ opacity: 0, rotateY: -90 }}
+        animate={{ opacity: 1, rotateY: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="relative w-full max-w-4xl bg-[#070f1f] rounded-xl border border-cyan-400/40 shadow-[0_0_40px_rgba(56,189,248,0.35)] overflow-hidden"
+        style={{ transformStyle: "preserve-3d" }}
       >
-        <form className="flex flex-col gap-4" onSubmit={handlesubmit}>
-          <h1 className="text-3xl font-bold text-center mb-2 tracking-wide">Welcome back</h1>
-          <p className="text-center text-sm mb-6 text-gray-500 tracking-wide">
+    
+        <form className="relative z-10 w-full md:w-1/2 p-12 flex flex-col gap-5 text-white" onSubmit={handlesubmit}>
+          <motion.h1 
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-3xl font-semibold mb-6 tracking-wider"
+          >
+            Login
+          </motion.h1>
+          <motion.p 
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="text-sm mb-8 text-gray-400 tracking-wide"
+          >
             Please enter your credentials to login.
-          </p>
+          </motion.p>
           
-          <input
+          <motion.input
+            initial={{ x: -50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.4 }}
             type="email"
             placeholder="Enter email"
             name="email"
             value={usercreds.email}
             onChange={handleInput}
-            className="border border-gray-300 text-black rounded p-2 tracking-wide text-sm shadow-sm focus:shadow-md transition duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-transparent border-b border-cyan-400/50 text-white placeholder-gray-400 py-2 tracking-wide text-sm focus:outline-none focus:border-cyan-300"
           />
           
-          <div className="relative">
+          <motion.div 
+            initial={{ x: -50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="relative"
+          >
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Enter password"
               name="password"
               value={usercreds.password}
               onChange={handleInput}
-              className="border border-gray-300 text-black rounded p-2 pr-10 tracking-wide text-sm shadow-sm focus:shadow-md transition duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+              className="w-full bg-transparent border-b border-cyan-400/50 text-white placeholder-gray-400 py-2 tracking-wide text-sm focus:outline-none focus:border-cyan-300"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-700"
+              className="absolute inset-y-0 right-0 flex items-center px-3 text-cyan-300"
             >
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
-          </div>
+          </motion.div>
 
-          <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold p-3 rounded uppercase tracking-wider text-sm shadow-md hover:shadow-lg transition duration-150">
+          <motion.button 
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.6, type: "spring" }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            type="submit" 
+            className="mt-6 bg-cyan-500 hover:bg-cyan-400 text-black font-semibold py-3 rounded-full tracking-wider shadow-[0_0_25px_rgba(56,189,248,0.6)] transition"
+          >
             Login
-          </button>
+          </motion.button>
 
           {message.text && (
-            <p className={`text-center font-medium ${message.type === "error" ? "text-red-500" : "text-green-500"}`}>
+            <motion.p 
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              className={`text-center font-medium ${message.type === "error" ? "text-red-500" : "text-green-500"}`}
+            >
               {message.text}
-            </p>
+            </motion.p>
           )}
 
-          <p className="text-center text-sm text-gray-600">
+          <motion.p 
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.7 }}
+            className="text-center text-sm text-gray-400 mt-6"
+          >
             Don't have an account? <Link to="/register" className="text-blue-500 hover:underline">Register now</Link>
-          </p>
+          </motion.p>
         </form>
       </motion.section>
     </div>
