@@ -1,10 +1,9 @@
 // API Configuration
-// Change this to switch between local and production backend
+// Automatically switches between local and production
 
-// For local development:
-export const API_BASE_URL = 'http://localhost:8000';
-
-// For production (Render):
-// export const API_BASE_URL = 'https://task-manager-by-anil.onrender.com';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 
+                     (import.meta.env.MODE === 'production' 
+                       ? 'https://task-manager-by-anil.onrender.com'
+                       : 'http://localhost:8000');
 
 export default API_BASE_URL;
