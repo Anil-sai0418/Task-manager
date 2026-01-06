@@ -12,6 +12,12 @@ export default function TaskCard({ task, onTaskClick, onEditTask, onDeleteTask }
       exit={{ opacity: 0, y: 20 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
       whileHover={{ scale: 1.02 }}
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          navigate(`/tasks/${task._id}`);
+        }
+      }}
       className="group bg-white/80 dark:bg-gray-900/80 backdrop-blur rounded-2xl border border-gray-200/70 dark:border-gray-700/70 p-6 relative cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5"
       onClick={(e) => {
         if (["INPUT", "BUTTON", "SVG", "PATH"].includes(e.target.tagName)) return;
@@ -27,7 +33,7 @@ export default function TaskCard({ task, onTaskClick, onEditTask, onDeleteTask }
         <div className="flex items-start justify-between gap-3">
           <h2
             className="text-lg font-semibold tracking-tight text-gray-900 dark:text-gray-100 
-                       break-words line-clamp-2"
+                       break-words line-clamp-2 leading-snug"
             title={task.name}
           >
             {task.name}
@@ -62,7 +68,7 @@ export default function TaskCard({ task, onTaskClick, onEditTask, onDeleteTask }
         </div>
 
         <p className="text-xs text-gray-500 mt-1">
-          Credited on <span className="font-medium">{task.date}</span> • {task.time}
+          Created on <span className="font-medium">{task.date}</span> • {task.time}
         </p>
       </div>
 
@@ -89,11 +95,11 @@ export default function TaskCard({ task, onTaskClick, onEditTask, onDeleteTask }
           </p>
         </div>
 
-        <div className="rounded-xl bg-blue-50/80 dark:bg-blue-900/20 p-4 flex flex-col items-center justify-center hover:scale-[1.02] transition shadow-sm">
+        <div className="rounded-xl bg-blue-50/90 dark:bg-blue-900/30 p-4 flex flex-col items-center justify-center hover:scale-[1.03] transition shadow-sm ring-1 ring-blue-200/60 dark:ring-blue-700/50">
           <p className="text-xs uppercase tracking-wide text-blue-600 dark:text-blue-400">
             Balance
           </p>
-          <p className="text-base sm:text-lg font-semibold tracking-tight text-blue-700 dark:text-blue-300 mt-1">
+          <p className="text-lg sm:text-xl font-bold tracking-tight text-blue-700 dark:text-blue-300 mt-1">
             ₹ {task.balance || 0}
           </p>
         </div>

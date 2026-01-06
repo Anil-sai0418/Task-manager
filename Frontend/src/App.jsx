@@ -40,7 +40,7 @@ function App() {
         },
         className: 'toast-custom',
       }}
-    />
+    />  
     <BrowserRouter>
       <Routes>
         <Route path='*' element={<NotFound/>}></Route>
