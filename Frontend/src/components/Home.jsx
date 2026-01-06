@@ -2,15 +2,23 @@ import { Menu, Inbox } from "lucide-react";
 import { Button } from "../components/ui/button"
 import { ModeToggle } from "./mode-toggle";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
+import { useEffect, useCallback } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 
 
 export default function Home() {
   const navigate = useNavigate();
+
+  const handleGetStartedClick = useCallback(() => {
+    if (localStorage.getItem('account-user')) {
+      navigate("/List");
+    } else {
+      if (window.confirm('Please log in to get started.')) {
+        navigate("/login");
+      }
+    }
+  }, [navigate]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -21,17 +29,7 @@ export default function Home() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
-
-  function handleGetStartedClick() {
-    if (localStorage.getItem('account-user')) {
-      navigate("/List");
-    } else {
-      if (window.confirm("Please log in to get started.")) {
-        navigate("/login");
-      }
-    }
-  }
+  }, [handleGetStartedClick]);
 
   return (
     <div

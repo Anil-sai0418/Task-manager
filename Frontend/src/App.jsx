@@ -28,27 +28,27 @@ function App() {
 
   return (
     <UserContext.Provider value={{loggedUser,setloggedUser}}>
-    <Toaster
-      position={window.innerWidth >= 768 ? "top-right" : "bottom-center"}
-      richColors
-      expand
-      offset={window.innerWidth >= 768 ? 60 : 20}
-      toastOptions={{
-        className: 'toast-custom',
-      }}
-    />  
-    <BrowserRouter>
-      <Routes>
-        <Route path='*' element={<NotFound/>}></Route>
-        <Route path='/' element={<Home/>}></Route>
-        <Route path='/login' element={loggedUser ? <Navigate to="/home" replace /> : <Login />} />
-        <Route path='/register' element={loggedUser ? <Navigate to="/home" replace /> : <Register />} />
-        <Route path='/home' element={<ProtectedRoute><Home/></ProtectedRoute>} />
-        <Route path='/List' element={<ProtectedRoute><List/></ProtectedRoute>} />
-        <Route path='/List/:id' element={<ProtectedRoute><Data/></ProtectedRoute>} />
-        <Route path='/List/:id/graph' element={<ProtectedRoute><TransactionGraph/></ProtectedRoute>} />
-      </Routes>
-    </BrowserRouter>
+      <Toaster
+        position={window.innerWidth >= 768 ? "top-right" : "bottom-center"}
+        richColors
+        expand
+        offset={window.innerWidth >= 768 ? 60 : 20}
+        toastOptions={{
+          className: 'toast-custom',
+        }}
+      />  
+      <BrowserRouter>
+        <Routes>
+          <Route path='*' element={<NotFound/>}></Route>
+          <Route path='/' element={<Home/>}></Route>
+          <Route path='/login' element={loggedUser ? <Navigate to="/home" replace /> : <Login />} />
+          <Route path='/register' element={loggedUser ? <Navigate to="/home" replace /> : <Register />} />
+          <Route path='/home' element={<ProtectedRoute><Home/></ProtectedRoute>} />
+          <Route path='/List' element={<ProtectedRoute><List/></ProtectedRoute>} />
+          <Route path='/List/:id' element={<ProtectedRoute><Data/></ProtectedRoute>} />
+          <Route path='/List/:id/graph' element={<ProtectedRoute><TransactionGraph/></ProtectedRoute>} />
+        </Routes>
+      </BrowserRouter>
     </UserContext.Provider>
   );
 }

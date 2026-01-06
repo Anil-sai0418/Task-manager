@@ -22,7 +22,7 @@ export default function ListNavbar({
             className="flex items-center gap-2 cursor-pointer group flex-shrink-0"
           >
             <div className=" bg-blue-100 dark:bg-blue-900/30 rounded-lg group-hover:bg-blue-200 dark:group-hover:bg-blue-800/40 transition-colors">
-<img  className='w-[30px] h-[30px] rounded-sm' src="./public/TM.png" alt="tm iamge" />
+<img  className='w-[30px] h-[30px] rounded-sm' src="/TM.png" alt="tm iamge" />
             </div>
             <span className="hidden sm:block text-xl font-bold bg-gradient-to-r from-blue-700 to-teal-500 bg-clip-text text-transparent">
               TaskManager

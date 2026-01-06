@@ -32,6 +32,7 @@ export default function Viewdata() {
     // Custom hooks
     const {
         transactions,
+        // eslint-disable-next-line no-unused-vars
         isLoading,
         addCreditTransaction,
         addDebitTransaction,
