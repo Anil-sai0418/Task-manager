@@ -11,7 +11,18 @@ require('dotenv').config();
 
 const app = express();
 
-app.use(cors()); 
+// CORS Configuration - Allow your Vercel frontend
+const corsOptions = {
+    origin: [
+        'http://localhost:5173',
+        'http://localhost:3000',
+        'https://task-manager-anil.vercel.app'
+    ],
+    credentials: true,
+    optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions)); 
 app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ extended: true, limit: '5mb' }));
 
@@ -411,4 +422,22 @@ app.put('/transaction/:id', async (req, res) => {
         res.status(500).json({ success: false, message: "Server error while updating transaction" });
     }
 });
-app.listen(8000, () => console.log(`Server is running on server`));
+
+// Health check endpoint
+app.get('/', (req, res) => {
+    res.status(200).json({ 
+        status: 'success', 
+        message: 'Task Manager API is running!',
+        timestamp: new Date().toISOString()
+    });
+});
+
+app.get('/health', (req, res) => {
+    res.status(200).json({ 
+        status: 'healthy', 
+        database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+    });
+});
+
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => console.log(`✅ Server is running on port ${PORT}`));
