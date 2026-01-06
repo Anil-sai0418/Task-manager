@@ -8,6 +8,7 @@ import TaskCard from "./list/TaskCard";
 import TaskModal from "./list/TaskModal";
 import TaskEditModal from "./list/TaskEditModal";
 import { ConfirmDialog } from "./ConfirmDialog";
+import Footer from "./Footer";
 
 export default function List() {
   const navigate = useNavigate();
@@ -194,6 +195,7 @@ export default function List() {
         cancelText="Cancel"
         variant="destructive"
       />
+      <Footer/>
     </>
   );
 }

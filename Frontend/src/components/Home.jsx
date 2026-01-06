@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useCallback } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
+import Footer from "./Footer";
 
 
 export default function Home() {
@@ -107,6 +108,7 @@ export default function Home() {
           </motion.button>
         </div>
       </motion.div>
+      <Footer />
     </div>
   );
 }

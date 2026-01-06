@@ -11,6 +11,7 @@ import TransactionModals from './data/TransactionModals';
 import MobileMenu from './data/MobileMenu';
 import { ConfirmDialog } from './ConfirmDialog';
 import { generateTransactionsPDF } from '../utils/pdfGenerator';
+import Footer from './Footer';
 import API_BASE_URL from '../config/api';
 import { toast } from 'sonner';
 
@@ -32,7 +33,6 @@ export default function Viewdata() {
     // Custom hooks
     const {
         transactions,
-        // eslint-disable-next-line no-unused-vars
         isLoading,
         addCreditTransaction,
         addDebitTransaction,
@@ -255,6 +255,7 @@ export default function Viewdata() {
                 cancelText="Cancel"
                 variant="destructive"
             />
+            <Footer />
         </div>
     );
 }
