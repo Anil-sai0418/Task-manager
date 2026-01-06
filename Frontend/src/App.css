@@ -120,14 +120,22 @@
   }
 }
 
-/* Toast positioning fix */
+/* Toast positioning */
 [data-sonner-toaster] {
   z-index: 9999 !important;
 }
 
-[data-sonner-toast] {
-  margin-top: 8px !important;
-  margin-right: 8px !important;
+/* Mobile: Bottom center with spacing */
+[data-sonner-toaster][data-y-position="bottom"] {
+  bottom: 20px !important;
+}
+
+/* Desktop: Top right with more spacing from top */
+@media (min-width: 768px) {
+  [data-sonner-toaster][data-y-position="top"][data-x-position="right"] {
+    top: 60px !important;
+    right: 20px !important;
+  }
 }
 
 .toast-custom {

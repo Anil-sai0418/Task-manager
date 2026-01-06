@@ -29,15 +29,11 @@ function App() {
   return (
     <UserContext.Provider value={{loggedUser,setloggedUser}}>
     <Toaster
-      position="top-right"
+      position={window.innerWidth >= 768 ? "top-right" : "bottom-center"}
       richColors
       expand
-      offset={20}
+      offset={window.innerWidth >= 768 ? 60 : 20}
       toastOptions={{
-        style: {
-          marginTop: '20px',
-          marginRight: '20px',
-        },
         className: 'toast-custom',
       }}
     />  
