@@ -7,6 +7,7 @@ const Task = require('./models/task');
 const transation = require('./models/transation');
 const TransactionModel = require('./models/transation');
 const Visitor = require('./models/visitor');
+const Like = require('./models/like');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
@@ -535,6 +536,143 @@ app.get('/visitor-stats', async (req, res) => {
 
 // ============================================
 // END VISITOR TRACKING ROUTES
+// ============================================
+
+// ============================================
+// LIKE / LOVE FEATURE ROUTES
+// ============================================
+
+// Helper function to get client IP (reusing from visitor tracking)
+const getClientIpForLike = (req) => {
+  // Check X-Forwarded-For header first (for proxies like Nginx, Render, etc.)
+  const xForwardedFor = req.headers['x-forwarded-for'];
+  if (xForwardedFor) {
+    return xForwardedFor.split(',')[0].trim();
+  }
+  
+  return req.socket.remoteAddress || req.connection.remoteAddress || 'unknown';
+};
+
+// Toggle like/unlike from user
+// Called when user clicks heart icon
+app.post('/toggle-like', async (req, res) => {
+  try {
+    const { sessionId } = req.body;
+    
+    // Validate session ID
+    if (!sessionId || typeof sessionId !== 'string' || sessionId.trim() === '') {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Valid sessionId is required' 
+      });
+    }
+
+    // Get client's IP address
+    const ipAddress = getClientIpForLike(req);
+    
+    // Get user agent
+    const userAgent = req.headers['user-agent'] || 'unknown';
+    
+    // Toggle like
+    const result = await Like.registerLike(ipAddress, sessionId.trim(), userAgent);
+    
+    console.log(`[Like] ${result.isNewLike ? 'NEW' : 'TOGGLED'} like: IP=${ipAddress}, Liked=${result.liked}`);
+    
+    res.status(200).json({
+      success: true,
+      liked: result.liked,
+      message: result.liked ? 'Thanks for loving our app!' : 'Like removed',
+      isNewLike: result.isNewLike
+    });
+    
+  } catch (error) {
+    console.error('Error toggling like:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Server error while toggling like',
+      error: error.message 
+    });
+  }
+});
+
+// Get total likes count
+// Called from frontend to display in footer
+app.get('/total-likes', async (req, res) => {
+  try {
+    const count = await Like.getTotalLikes();
+    
+    res.status(200).json({
+      success: true,
+      totalLikes: count,
+      message: `Total users loved this: ${count}`
+    });
+    
+  } catch (error) {
+    console.error('Error getting total likes:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Server error while getting total likes',
+      error: error.message 
+    });
+  }
+});
+
+// Check if current user already liked
+// Called when page loads to show heart state
+app.post('/check-user-like', async (req, res) => {
+  try {
+    const { sessionId } = req.body;
+    
+    if (!sessionId || typeof sessionId !== 'string' || sessionId.trim() === '') {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Valid sessionId is required' 
+      });
+    }
+
+    const ipAddress = getClientIpForLike(req);
+    const result = await Like.checkUserLike(ipAddress, sessionId.trim());
+    
+    res.status(200).json({
+      success: true,
+      liked: result.liked,
+      message: result.liked ? 'User has liked' : 'User has not liked'
+    });
+    
+  } catch (error) {
+    console.error('Error checking user like:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Server error while checking user like',
+      error: error.message 
+    });
+  }
+});
+
+// Get like statistics (for monitoring/dashboard)
+// Optional: for admin panel
+app.get('/like-stats', async (req, res) => {
+  try {
+    const stats = await Like.getLikeStats();
+    
+    res.status(200).json({
+      success: true,
+      stats: stats,
+      message: 'Like statistics retrieved'
+    });
+    
+  } catch (error) {
+    console.error('Error getting like stats:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Server error while getting like stats',
+      error: error.message 
+    });
+  }
+});
+
+// ============================================
+// END LIKE / LOVE FEATURE ROUTES
 // ============================================
 
 app.get('/health', (req, res) => {
