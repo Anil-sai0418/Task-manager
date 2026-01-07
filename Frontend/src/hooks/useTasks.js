@@ -1,15 +1,35 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { toast } from 'sonner';
 import API_BASE_URL from '../config/api';
+
+// Global cache to persist tasks across component mounts
+const tasksCache = {
+  data: null,
+  timestamp: null,
+  CACHE_DURATION: 5 * 60 * 1000 // 5 minutes cache
+};
 
 export function useTasks(userId) {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const hasInitialized = useRef(false);
 
-  const fetchTasks = async () => {
+  const fetchTasks = async (forceRefresh = false) => {
     if (!userId) return;
-    
+
+    // Check cache first (unless force refresh)
+    if (!forceRefresh && tasksCache.data && tasksCache.timestamp) {
+      const cacheAge = Date.now() - tasksCache.timestamp;
+      if (cacheAge < tasksCache.CACHE_DURATION) {
+        setTasks(tasksCache.data);
+        setLoading(false);
+        setError(null);
+        return;
+      }
+    }
+
+    // Cache expired or force refresh - fetch from API
     setLoading(true);
     setError(null); // Clear any previous errors
     try {
@@ -17,7 +37,11 @@ export function useTasks(userId) {
       const data = await response.json();
       if (response.ok) {
         // Handle empty tasks array gracefully
-        setTasks(data.tasks || []);
+        const tasksData = data.tasks || [];
+        setTasks(tasksData);
+        // Update cache
+        tasksCache.data = tasksData;
+        tasksCache.timestamp = Date.now();
       } else {
         // Only set error for actual failures
         setError("Failed to fetch tasks");
@@ -31,7 +55,11 @@ export function useTasks(userId) {
   };
 
   useEffect(() => {
-    fetchTasks();
+    // Only fetch if not already initialized (prevents multiple calls on mount)
+    if (!hasInitialized.current) {
+      hasInitialized.current = true;
+      fetchTasks();
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
@@ -46,7 +74,11 @@ export function useTasks(userId) {
       const data = await response.json();
       if (response.ok) {
         toast.success('Task created successfully!');
-        await fetchTasks();
+        // Invalidate cache so next fetch gets fresh data
+        tasksCache.timestamp = null;
+        tasksCache.data = null;
+        // Fetch fresh data
+        await fetchTasks(true);
         return { success: true, data };
       }
       toast.error(data.message || 'Failed to create task');
@@ -72,7 +104,11 @@ export function useTasks(userId) {
       const data = await response.json();
       if (response.ok && data.success) {
         toast.success('Task updated successfully!');
-        await fetchTasks();
+        // Invalidate cache so next fetch gets fresh data
+        tasksCache.timestamp = null;
+        tasksCache.data = null;
+        // Fetch fresh data
+        await fetchTasks(true);
         return { success: true };
       }
       toast.error(data.message || 'Failed to update task');
@@ -102,7 +138,12 @@ export function useTasks(userId) {
       const data = await response.json();
       if (response.ok) {
         toast.success('Task deleted successfully!');
-        setTasks(prev => prev.filter(t => t._id !== taskId));
+        // Update local state immediately for instant feedback
+        const updatedTasks = tasks.filter(t => t._id !== taskId);
+        setTasks(updatedTasks);
+        // Invalidate cache
+        tasksCache.data = updatedTasks;
+        tasksCache.timestamp = Date.now();
         return { success: true };
       }
       toast.error(data.message || 'Failed to delete task');

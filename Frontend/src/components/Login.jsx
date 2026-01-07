@@ -9,8 +9,7 @@ import API_BASE_URL from '../config/api';
 
 
 export default function Login() {
-  const { loggedUser, setloggedUser } = useContext(UserContext);
-  console.log(loggedUser)
+  const { setloggedUser } = useContext(UserContext);
 
   const navigate = useNavigate();
 

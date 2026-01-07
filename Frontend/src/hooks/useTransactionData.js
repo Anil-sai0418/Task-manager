@@ -27,9 +27,9 @@ export function useTransactionData(taskId) {
                             task: tx.taskId
                         }))
                     );
-                   
                 } else {
-                    console.log("No transactions found.");
+                    // Silent fail on no transactions
+                    setTransactions([]);
                 }
             } catch (error) {
                 console.error("Failed to fetch transactions:", error);

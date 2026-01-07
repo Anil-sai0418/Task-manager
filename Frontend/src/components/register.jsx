@@ -42,8 +42,6 @@ export default function Register(){
       setMessage({ type: "error", text: "Please fill in all fields" });
       return;
     }
-
-    console.log(userDetails);
     
     fetch(`${API_BASE_URL}/register`, {
       method: "POST",
@@ -69,7 +67,6 @@ export default function Register(){
         }, 1500);
       })
       .catch((err) => {
-        console.log("Error", err);
         setMessage({ 
           type: "error", 
           text: err.message || "Registration failed. Please try again." 

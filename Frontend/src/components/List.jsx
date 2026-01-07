@@ -95,7 +95,7 @@ export default function List() {
       {/* Main Content */}
       <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pt-20">
         <main className="w-full max-w-7xl px-6 md:px-12">
-          <div className="bg-gray-200 dark:bg-gray-800 p-6 rounded-lg w-full min-h-[600px] shadow-[0_8px_24px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_24px_rgba(255,255,255,0.05)]">
+          <div className="bg-gray-200 dark:bg-gray-800 p-6  mb-10 rounded-lg w-full min-h-[550px]  shadow-[0_8px_24px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_24px_rgba(255,255,255,0.05)]">
             
             {/* Loading State */}
             {loading && (
@@ -160,14 +160,7 @@ export default function List() {
         </main>
       </div>
 
-      {/* Add Task Button (Desktop) */}
-      <button
-        onClick={() => setShowModal(true)}
-        className="hidden sm:flex fixed bottom-8 right-8 w-16 h-16 items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-full shadow-[0_8px_24px_rgba(59,130,246,0.4)] hover:shadow-[0_12px_32px_rgba(59,130,246,0.6)] transition-all duration-300 z-40 transform hover:scale-110"
-        aria-label="Add new task"
-      >
-        <CopyPlus className="w-7 h-7" />
-      </button>
+    
 
       {/* Task Modal */}
       <TaskModal

@@ -52,7 +52,7 @@ export default function ListNavbar({
             {/* Create Task Button (Responsive) */}
             <button
               onClick={onAddTask}
-              className="flex items-center justify-center gap-2 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-md hover:shadow-lg transition-all active:scale-95"
+              className="flex items-center justify-center gap-2 px-3 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 dark:border-gray-600  border-gray-200 border dark:text-white  dark:bg-gray-900 dark:hover:bg-gray-950 rounded-lg shadow-md hover:shadow-lg transition-all active:scale-95"
               aria-label="Create new task"
             >
               <Plus className="w-5 h-5" />

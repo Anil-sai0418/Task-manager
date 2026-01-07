@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Mail, Phone, MapPin, Github, Linkedin, Heart, Users, CheckSquare } from "lucide-react";
+import { Mail, Phone, MapPin, Github, Linkedin, Heart, Users, CheckSquare, CircleUser } from "lucide-react";
 import { useVisitor } from "../hooks/useVisitor";
+import { useLike } from "../hooks/useLike";
 
 function Footer() {
   const currentYear = new Date().getFullYear();
@@ -9,8 +10,18 @@ function Footer() {
   const [isSlowNetwork, setIsSlowNetwork] = useState(false);
   
   // Get visitor count from hook
-  // eslint-disable-next-line no-unused-vars
-  const { visitorCount, loading: visitorLoading, error: visitorError } = useVisitor();
+  const { visitorCount, loading: visitorLoading } = useVisitor();
+
+  // Get like feature from hook
+  const { totalLikes, userLiked, toggleLike, loading: likeLoading } = useLike();
+
+  const handleLike = async () => {
+    try {
+      await toggleLike();
+    } catch (error) {
+      console.error('Error liking:', error);
+    }
+  };
 
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);
@@ -114,7 +125,7 @@ function Footer() {
 
             {/* Visitor Count */}
             <div className="inline-flex items-center gap-2 self-start rounded-md border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-3 py-1.5 text-xs text-gray-700 dark:text-gray-300">
-              <Users size={14} className="text-green-600 dark:text-green-400" />
+              <CircleUser size={14} className="text-gray-600 dark:text-white" />
               <span>
                 Total visitors:
                 <span className="ml-1 font-semibold text-gray-900 dark:text-gray-100">
@@ -176,6 +187,35 @@ function Footer() {
                 </span>
               </div>
             </div>
+
+          {/* Love / Like Section */}
+          <div className="mt-8 flex flex-col gap-2 text-xs text-gray-500 dark:text-gray-400">
+  <span className="italic">
+    Enjoying the experience?
+  </span>
+
+  <button
+    onClick={handleLike}
+    disabled={likeLoading}
+    className="inline-flex items-center gap-2 self-start rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-1.5 transition-all duration-200 hover:scale-[1.03] hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+    aria-label="Like this website"
+  >
+    <Heart
+      size={14}
+      className={`transition ${
+        userLiked
+          ? "fill-red-500 text-red-500 scale-110"
+          : "text-gray-500 dark:text-gray-400"
+      }`}
+    />
+    <span className="font-medium text-gray-700 dark:text-gray-200">
+      {likeLoading ? "…" : totalLikes || "0"}
+    </span>
+    <span className="text-gray-500 dark:text-gray-400">
+      users loved this
+    </span>
+  </button>
+</div>
           </div>
         </div>
 
@@ -194,8 +234,8 @@ function Footer() {
         
 
           {/* Made with love */}
-          <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
-           Design & Developed By Anil.
+          <div className="text-xs text-gray-500 dark:text-gray-400 text-center">
+            Design & Developed By Anil.
           </div>
         </div>
       </div>

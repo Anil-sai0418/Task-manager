@@ -59,14 +59,12 @@ export function useVisitor() {
       const existingSessionId = sessionStorage.getItem(STORAGE_KEY);
       
       if (existingSessionId) {
-        console.log('[Visitor] Using existing session ID:', existingSessionId);
         return existingSessionId;
       }
 
       // Generate new session ID
       const newSessionId = generateSessionId();
       sessionStorage.setItem(STORAGE_KEY, newSessionId);
-      console.log('[Visitor] Generated new session ID:', newSessionId);
       return newSessionId;
     } catch (err) {
       console.error('[Visitor] Error managing session ID:', err);
@@ -80,8 +78,6 @@ export function useVisitor() {
    */
   const registerVisitor = async (sessionId) => {
     try {
-      console.log('[Visitor] Registering visitor with session:', sessionId);
-      
       const response = await fetch(`${API_BASE_URL}/register-visitor`, {
         method: 'POST',
         headers: {
@@ -95,7 +91,6 @@ export function useVisitor() {
       }
 
       const data = await response.json();
-      console.log('[Visitor] Registration successful:', data);
       return data;
     } catch (err) {
       console.error('[Visitor] Error registering visitor:', err);
@@ -116,7 +111,6 @@ export function useVisitor() {
         const cacheAge = Date.now() - timestamp;
         
         if (cacheAge < CACHE_DURATION) {
-          console.log('[Visitor] Using cached visitor count:', count);
           setVisitorCount(count);
           setLoading(false);
           return count;
@@ -124,7 +118,6 @@ export function useVisitor() {
       }
 
       // Fetch from API
-      console.log('[Visitor] Fetching visitor count from API');
       const response = await fetch(`${API_BASE_URL}/visitor-count`);
 
       if (!response.ok) {
@@ -144,7 +137,6 @@ export function useVisitor() {
         console.warn('[Visitor] Could not cache visitor count:', err);
       }
 
-      console.log('[Visitor] Total visitor count:', count);
       setVisitorCount(count);
       return count;
     } catch (err) {

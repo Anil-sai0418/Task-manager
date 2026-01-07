@@ -33,7 +33,6 @@ export default function Viewdata() {
     // Custom hooks
     const {
         transactions,
-        isLoading,
         addCreditTransaction,
         addDebitTransaction,
         updateTransaction,

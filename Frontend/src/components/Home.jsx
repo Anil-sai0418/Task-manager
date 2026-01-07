@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useCallback } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
+import { toast } from 'sonner';
 import Footer from "./Footer";
 
 
@@ -15,9 +16,12 @@ export default function Home() {
     if (localStorage.getItem('account-user')) {
       navigate("/List");
     } else {
-      if (window.confirm('Please log in to get started.')) {
-        navigate("/login");
-      }
+      toast.info('Please log in to get started', {
+        action: {
+          label: 'Login',
+          onClick: () => navigate("/login")
+        }
+      });
     }
   }, [navigate]);
 
