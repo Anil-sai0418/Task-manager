@@ -1,17 +1,23 @@
 const mongoose = require('mongoose');
 
 const likeSchema = new mongoose.Schema({
-  // User identifier (IP + Session ID to track unique users)
-  ipAddress: {
+  // User ID (if logged in) - primary identifier
+  userId: {
     type: String,
-    required: true,
-    trim: true
+    trim: true,
+    sparse: true  // Allow null for anonymous users
   },
   
-  // Session ID to prevent multiple likes from same session
+  // Session ID - for anonymous/guest users
   sessionId: {
     type: String,
-    required: true,
+    trim: true,
+    sparse: true
+  },
+  
+  // IP Address - fallback identifier for anonymous users
+  ipAddress: {
+    type: String,
     trim: true
   },
   
@@ -42,14 +48,28 @@ const likeSchema = new mongoose.Schema({
   timestamps: true 
 });
 
-// Unique index: One like per IP + Session combination
-// This prevents multiple likes from same user/session
-likeSchema.index({ ipAddress: 1, sessionId: 1 }, { unique: true });
+// Unique indexes:
+// 1. Logged-in users identified by userId
+// 2. Anonymous users identified by sessionId + ipAddress
+likeSchema.index({ userId: 1 }, { unique: true, sparse: true });
+likeSchema.index({ sessionId: 1, ipAddress: 1 }, { unique: true, sparse: true });
 
 // Static method to register or update a like
-likeSchema.statics.registerLike = async function(ipAddress, sessionId, userAgent) {
+likeSchema.statics.registerLike = async function(userId, sessionId, ipAddress, userAgent) {
   try {
-    let likeRecord = await this.findOne({ ipAddress, sessionId });
+    let likeRecord;
+    let query;
+    
+    // Determine search criteria based on whether user is logged in
+    if (userId) {
+      // Logged-in user: use userId
+      query = { userId };
+    } else {
+      // Anonymous user: use sessionId + ipAddress
+      query = { sessionId, ipAddress };
+    }
+    
+    likeRecord = await this.findOne(query);
     
     if (likeRecord) {
       // User already liked/unliked, toggle it
@@ -64,8 +84,9 @@ likeSchema.statics.registerLike = async function(ipAddress, sessionId, userAgent
     } else {
       // New like from this user
       likeRecord = new this({ 
-        ipAddress, 
-        sessionId, 
+        userId: userId || null,
+        sessionId: sessionId || null,
+        ipAddress,
         userAgent,
         liked: true,
         likedAt: new Date()
@@ -96,9 +117,20 @@ likeSchema.statics.getTotalLikes = async function() {
 };
 
 // Static method to check if user already liked
-likeSchema.statics.checkUserLike = async function(ipAddress, sessionId) {
+likeSchema.statics.checkUserLike = async function(userId, sessionId, ipAddress) {
   try {
-    const likeRecord = await this.findOne({ ipAddress, sessionId });
+    let query;
+    
+    // Determine search criteria based on whether user is logged in
+    if (userId) {
+      // Logged-in user: use userId
+      query = { userId };
+    } else {
+      // Anonymous user: use sessionId + ipAddress
+      query = { sessionId, ipAddress };
+    }
+    
+    const likeRecord = await this.findOne(query);
     if (likeRecord) {
       return { liked: likeRecord.liked, likeRecord };
     }

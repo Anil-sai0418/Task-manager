@@ -3,11 +3,13 @@ import { useState } from "react";
 import { CopyPlus } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import { useTasks } from "../hooks/useTasks";
+import { useHealthCheck } from "../hooks/useHealthCheck";
 import ListNavbar from "./list/ListNavbar";
 import TaskCard from "./list/TaskCard";
 import TaskModal from "./list/TaskModal";
 import TaskEditModal from "./list/TaskEditModal";
 import { ConfirmDialog } from "./ConfirmDialog";
+import { TaskListSkeleton } from "./ui/skeleton";
 import Footer from "./Footer";
 
 export default function List() {
@@ -16,6 +18,9 @@ export default function List() {
   const [editModalTask, setEditModalTask] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [deleteConfirm, setDeleteConfirm] = useState({ open: false, taskId: null });
+
+  // Warm up backend
+  useHealthCheck();
 
   // Get user from localStorage
   const localStorage1 = localStorage.getItem("account-user");
@@ -99,11 +104,8 @@ export default function List() {
             
             {/* Loading State */}
             {loading && (
-              <div className="flex items-center justify-center py-20">
-                <div className="text-center">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-                  <p className="text-gray-600 dark:text-gray-400">Loading tasks...</p>
-                </div>
+              <div>
+                <TaskListSkeleton count={6} />
               </div>
             )}
 

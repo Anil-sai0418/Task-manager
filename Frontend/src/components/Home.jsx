@@ -6,11 +6,15 @@ import { useEffect, useCallback } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { toast } from 'sonner';
+import { useHealthCheck } from "../hooks/useHealthCheck";
 import Footer from "./Footer";
 
 
 export default function Home() {
   const navigate = useNavigate();
+  
+  // Warm up backend
+  useHealthCheck();
 
   const handleGetStartedClick = useCallback(() => {
     if (localStorage.getItem('account-user')) {

@@ -1,0 +1,22 @@
+{
+  "name": "Task Manager",
+  "short_name": "TaskMgr",
+  "description": "Manage tasks, track credits and debits, and stay productive with a smart task manager.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/TM.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/TM.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

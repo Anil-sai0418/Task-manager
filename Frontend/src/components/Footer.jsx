@@ -190,8 +190,8 @@ function Footer() {
 
           {/* Love / Like Section */}
           <div className="mt-8 flex flex-col gap-2 text-xs text-gray-500 dark:text-gray-400">
-  <span className="italic">
-    Enjoying the experience?
+  <span >
+Found this helpful? Tap on below
   </span>
 
   <button

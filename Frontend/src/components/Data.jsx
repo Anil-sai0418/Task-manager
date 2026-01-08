@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTransactionData } from '../hooks/useTransactionData';
+import { useHealthCheck } from '../hooks/useHealthCheck';
 import { useTransactionFilters } from '../hooks/useTransactionFilters';
 import DataNavbar from './data/DataNavbar';
 import FilterPanel from './data/FilterPanel';
@@ -11,6 +12,7 @@ import TransactionModals from './data/TransactionModals';
 import MobileMenu from './data/MobileMenu';
 import { ConfirmDialog } from './ConfirmDialog';
 import { generateTransactionsPDF } from '../utils/pdfGenerator';
+import { TaskDetailSkeleton } from './ui/skeleton';
 import Footer from './Footer';
 import API_BASE_URL from '../config/api';
 import { toast } from 'sonner';
@@ -18,6 +20,9 @@ import { toast } from 'sonner';
 export default function Viewdata() {
     const params = useParams();
     const navigate = useNavigate();
+    
+    // Warm up backend
+    useHealthCheck();
     
     // UI State
     const [showFilters, setShowFilters] = useState(false);
@@ -33,6 +38,7 @@ export default function Viewdata() {
     // Custom hooks
     const {
         transactions,
+        isLoading,
         addCreditTransaction,
         addDebitTransaction,
         updateTransaction,
@@ -218,29 +224,38 @@ export default function Viewdata() {
 
             {/* Main Content */}
             <div className="flex flex-col items-center w-full">
-                {/* Tabs Filter */}
-                <TabsFilter
-                    activeTab={activeTab}
-                    setActiveTab={setActiveTab}
-                    taskName={taskName}
-                />
+                {/* Loading State */}
+                {isLoading ? (
+                    <div className="w-full max-w-6xl px-4 py-10">
+                        <TaskDetailSkeleton />
+                    </div>
+                ) : (
+                    <>
+                        {/* Tabs Filter */}
+                        <TabsFilter
+                            activeTab={activeTab}
+                            setActiveTab={setActiveTab}
+                            taskName={taskName}
+                        />
 
-                {/* Transaction Table */}
-                <TransactionTable
-                    transactions={filteredAndSortedTransactions}
-                    activeTab={activeTab}
-                    sortBy={sortBy}
-                    setSortBy={setSortBy}
-                    sortOrder={sortOrder}
-                    setSortOrder={setSortOrder}
-                    onEdit={handleEditTransaction}
-                    onDelete={handleDeleteTransaction}
-                />
+                        {/* Transaction Table */}
+                        <TransactionTable
+                            transactions={filteredAndSortedTransactions}
+                            activeTab={activeTab}
+                            sortBy={sortBy}
+                            setSortBy={setSortBy}
+                            sortOrder={sortOrder}
+                            setSortOrder={setSortOrder}
+                            onEdit={handleEditTransaction}
+                            onDelete={handleDeleteTransaction}
+                        />
 
-                {/* Transaction Summary */}
-                <TransactionSummary
-                    transactions={filteredAndSortedTransactions}
-                />
+                        {/* Transaction Summary */}
+                        <TransactionSummary
+                            transactions={filteredAndSortedTransactions}
+                        />
+                    </>
+                )}
             </div>
 
             {/* Delete Confirmation Dialog */}

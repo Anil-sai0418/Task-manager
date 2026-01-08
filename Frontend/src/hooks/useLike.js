@@ -7,6 +7,20 @@ export function useLike() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Get user ID from localStorage (if logged in)
+  const getUserId = () => {
+    try {
+      const userStr = localStorage.getItem('account-user');
+      if (userStr) {
+        const user = JSON.parse(userStr);
+        return user?.user?.id || null;
+      }
+    } catch (err) {
+      console.error('[Like] Error getting userId:', err);
+    }
+    return null;
+  };
+
   // Get or create session ID (same as visitor tracking)
   const getSessionId = () => {
     let sessionId = sessionStorage.getItem('tm_session_id');
@@ -31,12 +45,12 @@ export function useLike() {
   };
 
   // Check if current user already liked
-  const checkUserLike = async (sessionId) => {
+  const checkUserLike = async (sessionId, userId) => {
     try {
       const response = await fetch(`${API_BASE_URL}/check-user-like`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId })
+        body: JSON.stringify({ sessionId, userId })
       });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const data = await response.json();
@@ -51,10 +65,12 @@ export function useLike() {
   const toggleLike = async () => {
     try {
       const sessionId = getSessionId();
+      const userId = getUserId();
+      
       const response = await fetch(`${API_BASE_URL}/toggle-like`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId })
+        body: JSON.stringify({ sessionId, userId })
       });
       
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -81,9 +97,10 @@ export function useLike() {
       try {
         setLoading(true);
         const sessionId = getSessionId();
+        const userId = getUserId();
         
         // Check if user already liked
-        await checkUserLike(sessionId);
+        await checkUserLike(sessionId, userId);
         
         // Fetch total likes count
         await fetchTotalLikes();

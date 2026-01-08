@@ -557,9 +557,9 @@ const getClientIpForLike = (req) => {
 // Called when user clicks heart icon
 app.post('/toggle-like', async (req, res) => {
   try {
-    const { sessionId } = req.body;
+    const { sessionId, userId } = req.body;
     
-    // Validate session ID
+    // Validate input: either userId (for logged-in users) or sessionId (for guests)
     if (!sessionId || typeof sessionId !== 'string' || sessionId.trim() === '') {
       return res.status(400).json({ 
         success: false, 
@@ -573,10 +573,10 @@ app.post('/toggle-like', async (req, res) => {
     // Get user agent
     const userAgent = req.headers['user-agent'] || 'unknown';
     
-    // Toggle like
-    const result = await Like.registerLike(ipAddress, sessionId.trim(), userAgent);
+    // Toggle like (userId takes priority for logged-in users)
+    const result = await Like.registerLike(userId || null, sessionId.trim(), ipAddress, userAgent);
     
-    console.log(`[Like] ${result.isNewLike ? 'NEW' : 'TOGGLED'} like: IP=${ipAddress}, Liked=${result.liked}`);
+    console.log(`[Like] ${result.isNewLike ? 'NEW' : 'TOGGLED'} like: UserID=${userId || 'anonymous'}, Liked=${result.liked}`);
     
     res.status(200).json({
       success: true,
@@ -621,7 +621,7 @@ app.get('/total-likes', async (req, res) => {
 // Called when page loads to show heart state
 app.post('/check-user-like', async (req, res) => {
   try {
-    const { sessionId } = req.body;
+    const { sessionId, userId } = req.body;
     
     if (!sessionId || typeof sessionId !== 'string' || sessionId.trim() === '') {
       return res.status(400).json({ 
@@ -631,7 +631,7 @@ app.post('/check-user-like', async (req, res) => {
     }
 
     const ipAddress = getClientIpForLike(req);
-    const result = await Like.checkUserLike(ipAddress, sessionId.trim());
+    const result = await Like.checkUserLike(userId || null, sessionId.trim(), ipAddress);
     
     res.status(200).json({
       success: true,
