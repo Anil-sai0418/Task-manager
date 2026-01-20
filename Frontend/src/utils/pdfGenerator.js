@@ -103,17 +103,24 @@ export const generateTransactionsPDF = (taskName, transactions, summary) => {
   /* =========================
      TRANSACTIONS TITLE
   ========================= */
+// Define center position (assuming pageWidth is already defined as in your previous code)
+  const centerX = pageWidth / 2;
+
+  // Title
   doc.setFontSize(13);
   doc.setFont(undefined, "bold");
-  doc.text("Transaction Details", 14, 80);
+  doc.setTextColor(0, 0, 0); // Ensure title is black
+  doc.text("Transaction Details", centerX, 80, { align: "center" });
 
+  // Subtitle
   doc.setFontSize(10);
   doc.setFont(undefined, "normal");
-  doc.setTextColor(90);
+  doc.setTextColor(90); // Grey color
   doc.text(
     "Below is the list of all credit and debit transactions recorded for this task.",
-    14,
-    87
+    centerX,
+    87,
+    { align: "center" }
   );
 
   /* =========================
