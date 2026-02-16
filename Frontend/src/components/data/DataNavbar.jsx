@@ -1,4 +1,4 @@
-import { Menu, Filter, ChevronDown, Search, Plus, Minus, ArrowLeft, Share2 } from 'lucide-react';
+import { Menu, Filter, ChevronDown, Search, Plus, Minus, ArrowLeft, Share2, GitGraph, Download, ChartLine } from 'lucide-react';
 import { useRef, useEffect } from 'react';
 
 export default function DataNavbar({ 
@@ -153,23 +153,25 @@ export default function DataNavbar({
                   Export
                 </div>
                 <button
-                  className="w-full text-left px-3 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-sm transition-colors flex items-center gap-2"
+                  className="w-full text-left px-3 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-sm transition-colors flex items-center gap-4"
                   onClick={onDownloadPDF}
                 >
+                   <Download className="h-4 w-4" />
                   Download PDF
                 </button>
                 <button
-                  className="w-full text-left px-3 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-sm transition-colors"
+                  className="w-full text-left px-3 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-sm transition-colors font-medium flex items-center gap-4"
                   onClick={() => {
                     setShowDropdown(false);
                     onShareLink();
                   }}
                 >
+                   <ChartLine className="h-4 w-4" />
                   View Graph
                 </button>
 
                 <button
-                  className="w-full text-left px-3 py-2 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg text-sm transition-colors font-medium flex items-center gap-2"
+                  className="w-full text-left px-3 py-2 text-gray-600 dark:text-gray-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg text-sm transition-colors font-medium flex items-center gap-4"
                   onClick={() => {
                     setShowDropdown(false);
                     onShareApp();

@@ -108,7 +108,7 @@ export default function MobileMenu({
                     View Graph
                   </button>
                   <button
-                    className="w-full text-left px-4 py-3 text-indigo-600 hover:bg-indigo-50 text-[15px] font-medium flex items-center gap-3"
+                    className="w-full text-left px-4 py-3 text-gray-600 hover:bg-indigo-50 text-[15px] font-medium flex items-center gap-3"
                     onClick={() => {
                       onShareApp();
                       setShowMobileDropdown(false);

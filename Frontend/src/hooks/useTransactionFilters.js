@@ -1,7 +1,9 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 
 export function useTransactionFilters(transactions) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
+  const searchTimeoutRef = useRef(null);
   const [sortBy, setSortBy] = useState('date');
   const [sortOrder, setSortOrder] = useState('desc');
   const [dateRange, setDateRange] = useState({ from: '', to: '' });
@@ -9,15 +11,32 @@ export function useTransactionFilters(transactions) {
   const [timeFilter, setTimeFilter] = useState('all');
   const [activeTab, setActiveTab] = useState('all');
 
+  // Debounce search query
+  useEffect(() => {
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+
+    searchTimeoutRef.current = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 300);
+
+    return () => {
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+    };
+  }, [searchQuery]);
+
   const filteredAndSortedTransactions = useMemo(() => {
     let filtered = transactions.filter((tx) => {
       // Tab filter
       const tabMatch = activeTab === "all" ? true : tx.type === activeTab;
       
-      // Search filter
-      const searchMatch = tx.description.toLowerCase().includes(searchQuery) ||
-                         tx.date.includes(searchQuery) ||
-                         tx.time.includes(searchQuery);
+      // Search filter - using debounced search query
+      const searchMatch = tx.description.toLowerCase().includes(debouncedSearchQuery.toLowerCase()) ||
+                         tx.date.includes(debouncedSearchQuery) ||
+                         tx.time.includes(debouncedSearchQuery);
       
       // Date range filter
       let dateMatch = true;
@@ -91,7 +110,7 @@ export function useTransactionFilters(transactions) {
     });
 
     return filtered;
-  }, [transactions, searchQuery, sortBy, sortOrder, dateRange, amountRange, timeFilter, activeTab]);
+  }, [transactions, debouncedSearchQuery, sortBy, sortOrder, dateRange, amountRange, timeFilter, activeTab]);
 
   const clearAllFilters = () => {
     setSearchQuery('');
