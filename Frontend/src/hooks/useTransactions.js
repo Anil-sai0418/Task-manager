@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import API_BASE_URL from '../config/api';
 
 export function useTransactions(taskId) {
   const [transactions, setTransactions] = useState([]);
@@ -10,7 +11,7 @@ export function useTransactions(taskId) {
     
     setLoading(true);
     try {
-      const response = await fetch(`https://task-manager-by-anil.onrender.com/transactions/${taskId}`);
+      const response = await fetch(`${API_BASE_URL}/transactions/${taskId}`);
       const data = await response.json();
       if (data.success) {
         setTransactions(
@@ -36,13 +37,14 @@ export function useTransactions(taskId) {
 
   useEffect(() => {
     fetchTransactions();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [taskId]);
 
   const addTransaction = async (transactionData) => {
     try {
       const endpoint = transactionData.type === 'credit' 
-        ? 'https://task-manager-by-anil.onrender.com/credit-transaction'
-        : 'https://task-manager-by-anil.onrender.com/debit-transaction';
+        ? `${API_BASE_URL}/credit-transaction`
+        : `${API_BASE_URL}/debit-transaction`;
       
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -64,7 +66,7 @@ export function useTransactions(taskId) {
 
   const updateTransaction = async (id, transactionData) => {
     try {
-      const response = await fetch(`https://task-manager-by-anil.onrender.com/transaction/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/transaction/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(transactionData),
@@ -84,7 +86,7 @@ export function useTransactions(taskId) {
 
   const deleteTransaction = async (id) => {
     try {
-      const response = await fetch(`https://task-manager-by-anil.onrender.com/transaction/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/transaction/${id}`, {
         method: 'DELETE',
       });
 
