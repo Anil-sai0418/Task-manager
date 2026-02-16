@@ -1,4 +1,4 @@
-import { Menu, Filter, ChevronDown, Search, Plus, Minus, ArrowLeft } from 'lucide-react';
+import { Menu, Filter, ChevronDown, Search, Plus, Minus, ArrowLeft, Share2 } from 'lucide-react';
 import { useRef, useEffect } from 'react';
 
 export default function DataNavbar({ 
@@ -8,6 +8,7 @@ export default function DataNavbar({
   onDebitClick,
   onDownloadPDF,
   onShareLink,
+  onShareApp,
   onLogout,
   showDropdown,
   setShowDropdown,
@@ -166,10 +167,21 @@ export default function DataNavbar({
                 >
                   View Graph
                 </button>
-                
-                <div className="my-1 border-t border-gray-100 dark:border-gray-700"></div>
-                
+
                 <button
+                  className="w-full text-left px-3 py-2 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg text-sm transition-colors font-medium flex items-center gap-2"
+                  onClick={() => {
+                    setShowDropdown(false);
+                    onShareApp();
+                  }}
+                >
+                  <Share2 className="h-4 w-4" />
+                  Share App
+                </button>
+
+                
+                
+                <div className="my-1 border-t border-gray-100 dark:border-gray-700"></div>                <button
                   onClick={onLogout}
                   className="w-full text-left px-3 py-2 text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-lg text-sm transition-colors font-medium"
                 >

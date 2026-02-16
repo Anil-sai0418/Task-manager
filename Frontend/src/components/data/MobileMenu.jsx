@@ -1,4 +1,4 @@
-import { Filter, ChevronDown } from 'lucide-react';
+import { Filter, ChevronDown, Share2 } from 'lucide-react';
 import { useRef, useEffect } from 'react';
 
 export default function MobileMenu({ 
@@ -10,6 +10,7 @@ export default function MobileMenu({
   onDebitClick,
   onDownloadPDF,
   onShareLink,
+  onShareApp,
   showMobileDropdown,
   setShowMobileDropdown
 }) {
@@ -107,13 +108,15 @@ export default function MobileMenu({
                     View Graph
                   </button>
                   <button
-                    className="w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-100 text-[15px] font-medium flex items-center gap-3"
+                    className="w-full text-left px-4 py-3 text-indigo-600 hover:bg-indigo-50 text-[15px] font-medium flex items-center gap-3"
                     onClick={() => {
+                      onShareApp();
                       setShowMobileDropdown(false);
                       onClose();
                     }}
                   >
-                    More Details
+                    <Share2 className="h-4 w-4" />
+                    Share App
                   </button>
                   <button
                     className="w-full text-left px-4 py-3 text-red-600 hover:bg-red-50 text-[15px] font-medium flex items-center gap-3"

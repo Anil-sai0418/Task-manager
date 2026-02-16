@@ -16,14 +16,15 @@ import { TaskDetailSkeleton } from './ui/skeleton';
 import Footer from './Footer';
 import API_BASE_URL from '../config/api';
 import { toast } from 'sonner';
+import ShareModal from './ShareModal';
 
 export default function Viewdata() {
     const params = useParams();
     const navigate = useNavigate();
-    
+
     // Warm up backend
     useHealthCheck();
-    
+
     // UI State
     const [showFilters, setShowFilters] = useState(false);
     const [showCreditModal, setShowCreditModal] = useState(false);
@@ -34,6 +35,7 @@ export default function Viewdata() {
     const [showMobileDropdown, setShowMobileDropdown] = useState(false);
     const [deleteConfirm, setDeleteConfirm] = useState({ open: false, transactionId: null });
     const [taskName, setTaskName] = useState('');
+    const [showShareModal, setShowShareModal] = useState(false);
 
     // Custom hooks
     const {
@@ -172,6 +174,7 @@ export default function Viewdata() {
                 onDebitClick={handleOpenDebitModal}
                 onDownloadPDF={handleDownloadPDF}
                 onShareLink={() => navigate(`/List/${params.id}/graph`)}
+                onShareApp={() => setShowShareModal(true)}
                 onLogout={() => window.location.href = "/login"}
                 showDropdown={showDropdown}
                 setShowDropdown={setShowDropdown}
@@ -189,6 +192,7 @@ export default function Viewdata() {
                 onDebitClick={handleOpenDebitModal}
                 onDownloadPDF={handleDownloadPDF}
                 onShareLink={() => navigate(`/List/${params.id}/graph`)}
+                onShareApp={() => setShowShareModal(true)}
                 showMobileDropdown={showMobileDropdown}
                 setShowMobileDropdown={setShowMobileDropdown}
             />
@@ -220,6 +224,12 @@ export default function Viewdata() {
                 editModalData={editModalData}
                 onCloseEditModal={handleCloseEditModal}
                 onUpdateTransaction={handleUpdateTransaction}
+            />
+
+            {/* Share Modal */}
+            <ShareModal
+                open={showShareModal}
+                onOpenChange={setShowShareModal}
             />
 
             {/* Main Content */}
