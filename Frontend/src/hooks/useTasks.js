@@ -6,6 +6,7 @@ import API_BASE_URL from '../config/api';
 const tasksCache = {
   data: null,
   timestamp: null,
+  userId: null,
   CACHE_DURATION: 5 * 60 * 1000 // 5 minutes cache
 };
 
@@ -13,13 +14,17 @@ export function useTasks(userId) {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const hasInitialized = useRef(false);
 
   const fetchTasks = async (forceRefresh = false) => {
     if (!userId) return;
 
     // Check cache first (unless force refresh)
-    if (!forceRefresh && tasksCache.data && tasksCache.timestamp) {
+    // Validate cache against current userId to prevent cross-user data leaks
+    if (!forceRefresh &&
+      tasksCache.data &&
+      tasksCache.timestamp &&
+      tasksCache.userId === userId) {
+
       const cacheAge = Date.now() - tasksCache.timestamp;
       if (cacheAge < tasksCache.CACHE_DURATION) {
         setTasks(tasksCache.data);
@@ -42,6 +47,7 @@ export function useTasks(userId) {
         // Update cache
         tasksCache.data = tasksData;
         tasksCache.timestamp = Date.now();
+        tasksCache.userId = userId;
       } else {
         // Only set error for actual failures
         setError("Failed to fetch tasks");
@@ -55,12 +61,8 @@ export function useTasks(userId) {
   };
 
   useEffect(() => {
-    // Only fetch if not already initialized (prevents multiple calls on mount)
-    if (!hasInitialized.current) {
-      hasInitialized.current = true;
-      fetchTasks();
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchTasks();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
   const createTask = async (taskData) => {
