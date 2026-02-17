@@ -256,11 +256,11 @@ export default function ProfileDropdown({ userId }) {
             </div>
 
             {/* Modal Body */}
-            <div className="p-6 space-y-6 bg-gradient-to-br from-emerald-50 via-white to-teal-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+            <div className="p-6 space-y-6 bg-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
               {/* Image Upload */}
               <div className="flex justify-center">
                 <div className="relative group">
-                  <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white dark:border-gray-700 shadow-xl bg-white dark:bg-gray-800">
+                  <div className="w-28 h-28 rounded-full overflow-hidden border-4 border-emerald-100 dark:border-emerald-900/50 shadow-lg bg-white dark:bg-gray-800 ring-2 ring-offset-2 ring-emerald-200 dark:ring-emerald-900 ring-offset-white dark:ring-offset-gray-800">
                     <img
                       src={userProfile.profileImage || "https://via.placeholder.com/150"}
                       alt="Profile"
@@ -269,9 +269,9 @@ export default function ProfileDropdown({ userId }) {
                   </div>
                   <label 
                     htmlFor="editProfileImage" 
-                    className="absolute bottom-0 right-0 w-8 h-8 bg-gray-500 text-white rounded-full flex items-center justify-center shadow-lg cursor-pointer  transition-all border-2 border-white dark:border-gray-800"
+                    className="absolute bottom-0 right-0 w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-500 text-white rounded-full flex items-center justify-center shadow-lg cursor-pointer hover:from-emerald-600 hover:to-teal-600 transition-all border-4 border-white dark:border-gray-800 hover:scale-110"
                   >
-                    <Camera size={14} />
+                    <Camera size={18} />
                   </label>
                   <input
                     id="editProfileImage"
@@ -284,31 +284,31 @@ export default function ProfileDropdown({ userId }) {
               </div>
 
               {/* Form Fields */}
-              <div className="space-y-4">
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider ml-1">Phone Number</label>
-                  <div className="relative">
-                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+              <div className="space-y-5">
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider ml-1 block">Phone Number</label>
+                  <div className="relative group">
+                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-emerald-500 dark:text-emerald-400 group-focus-within:text-emerald-600" size={18} />
                     <input
                       type="tel"
                       value={userProfile.phone}
                       onChange={(e) => handleProfileUpdate('phone', e.target.value)}
                       placeholder="+1 (555) 000-0000"
-                      className="w-full pl-10 pr-4 py-3 bg-white/80 dark:bg-gray-900 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all dark:text-white placeholder-gray-400 shadow-sm"
+                      className="w-full pl-12 pr-4 py-3.5 bg-white dark:bg-gray-700/50 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white text-gray-900 placeholder-gray-400 dark:placeholder-gray-500 shadow-sm hover:border-emerald-300 dark:hover:border-emerald-600 font-medium"
                     />
                   </div>
                 </div>
 
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider ml-1">Address</label>
-                  <div className="relative">
-                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                    <input
-                      type="text"
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider ml-1 block">Address</label>
+                  <div className="relative group">
+                    <MapPin className="absolute left-4 top-3.5 text-emerald-500 dark:text-emerald-400 group-focus-within:text-emerald-600" size={18} />
+                    <textarea
                       value={userProfile.address}
                       onChange={(e) => handleProfileUpdate('address', e.target.value)}
                       placeholder="123 Main St, City, Country"
-                      className="w-full pl-10 pr-4 py-3 bg-white/80 dark:bg-gray-900 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all dark:text-white placeholder-gray-400 shadow-sm"
+                      rows="3"
+                      className="w-full pl-12 pr-4 py-3.5 bg-white dark:bg-gray-700/50 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white text-gray-900 placeholder-gray-400 dark:placeholder-gray-500 shadow-sm hover:border-emerald-300 dark:hover:border-emerald-600 font-medium resize-none"
                     />
                   </div>
                 </div>
@@ -316,18 +316,18 @@ export default function ProfileDropdown({ userId }) {
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 border-t border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 flex gap-3">
+            <div className="p-6 border-t-2 border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 flex gap-3">
               <button
                 onClick={() => setIsEditing(false)}
-                className="flex-1 px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 font-semibold hover:bg-gray-100 dark:hover:bg-gray-600 transition-all shadow-sm"
+                className="flex-1 px-6 py-3.5 rounded-xl border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 hover:border-gray-400 dark:hover:border-gray-500 transition-all shadow-sm active:scale-95"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSaveProfile}
-                className="flex-1 px-4 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-semibold hover:from-emerald-700 hover:to-teal-700 shadow-lg shadow-emerald-500/40 transition-all flex justify-center items-center gap-2"
+                className="flex-1 px-6 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold hover:from-emerald-600 hover:to-teal-600 shadow-lg shadow-emerald-500/40 hover:shadow-emerald-500/60 transition-all flex justify-center items-center gap-2 active:scale-95"
               >
-                <Check size={18} />
+                <Check size={20} />
                 Save Changes
               </button>
             </div>
