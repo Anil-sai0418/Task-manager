@@ -1,16 +1,16 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Toaster } from 'sonner';
-import Login from './components/Login';
-import Register from './components/register';
-import Home from './components/Home';
-import List from './components/List';
-import Data from './components/Data';
-import TransactionGraph from './components/TransactionGraph';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Home from './pages/Home';
+import List from './pages/List';
+import Data from './pages/Data';
+import TransactionGraph from './pages/TransactionGraph';
 
 import './App.css';
 import { UserContext } from './context/Usercontext';
-import NotFound from './components/404';
+import NotFound from './pages/NotFound';
 
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
   };
 
   return (
-    <UserContext.Provider value={{loggedUser,setloggedUser}}>
+    <UserContext.Provider value={{ loggedUser, setloggedUser }}>
       <Toaster
         position={window.innerWidth >= 768 ? "top-right" : "bottom-center"}
         richColors
@@ -36,17 +36,17 @@ function App() {
         toastOptions={{
           className: 'toast-custom',
         }}
-      />  
+      />
       <BrowserRouter>
         <Routes>
-          <Route path='*' element={<NotFound/>}></Route>
-          <Route path='/' element={<Home/>}></Route>
+          <Route path='*' element={<NotFound />}></Route>
+          <Route path='/' element={<Home />}></Route>
           <Route path='/login' element={loggedUser ? <Navigate to="/home" replace /> : <Login />} />
           <Route path='/register' element={loggedUser ? <Navigate to="/home" replace /> : <Register />} />
-          <Route path='/home' element={<ProtectedRoute><Home/></ProtectedRoute>} />
-          <Route path='/List' element={<ProtectedRoute><List/></ProtectedRoute>} />
-          <Route path='/List/:id' element={<ProtectedRoute><Data/></ProtectedRoute>} />
-          <Route path='/List/:id/graph' element={<ProtectedRoute><TransactionGraph/></ProtectedRoute>} />
+          <Route path='/home' element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path='/List' element={<ProtectedRoute><List /></ProtectedRoute>} />
+          <Route path='/List/:id' element={<ProtectedRoute><Data /></ProtectedRoute>} />
+          <Route path='/List/:id/graph' element={<ProtectedRoute><TransactionGraph /></ProtectedRoute>} />
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>

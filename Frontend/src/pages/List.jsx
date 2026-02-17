@@ -4,13 +4,13 @@ import { CopyPlus } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import { useTasks } from "../hooks/useTasks";
 import { useHealthCheck } from "../hooks/useHealthCheck";
-import ListNavbar from "./list/ListNavbar";
-import TaskCard from "./list/TaskCard";
-import TaskModal from "./list/TaskModal";
-import TaskEditModal from "./list/TaskEditModal";
-import { ConfirmDialog } from "./ConfirmDialog";
-import { TaskListSkeleton } from "./ui/skeleton";
-import Footer from "./Footer";
+import ListNavbar from "../components/list/ListNavbar";
+import TaskCard from "../components/list/TaskCard";
+import TaskModal from "../components/list/TaskModal";
+import TaskEditModal from "../components/list/TaskEditModal";
+import { ConfirmDialog } from "../components/ConfirmDialog";
+import { TaskListSkeleton } from "../components/ui/skeleton";
+import Footer from "../components/Footer";
 
 export default function List() {
   const navigate = useNavigate();
@@ -48,7 +48,7 @@ export default function List() {
       ...taskData,
       userId: userId
     });
-    
+
     if (result.success) {
       setShowModal(false);
     }
@@ -58,7 +58,7 @@ export default function List() {
   // Handle update task
   const handleUpdateTask = async (taskData) => {
     const result = await updateTask(editModalTask._id, taskData);
-    
+
     if (result.success) {
       setEditModalTask(null);
     }
@@ -101,7 +101,7 @@ export default function List() {
       <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pt-20">
         <main className="w-full max-w-7xl px-6 md:px-12">
           <div className="bg-gray-200 dark:bg-gray-800 p-6  mb-10 rounded-lg w-full min-h-[550px]  shadow-[0_8px_24px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_24px_rgba(255,255,255,0.05)]">
-            
+
             {/* Loading State */}
             {loading && (
               <div>
@@ -162,7 +162,7 @@ export default function List() {
         </main>
       </div>
 
-    
+
 
       {/* Task Modal */}
       <TaskModal
@@ -190,7 +190,7 @@ export default function List() {
         cancelText="Cancel"
         variant="destructive"
       />
-      <Footer/>
+      <Footer />
     </>
   );
 }

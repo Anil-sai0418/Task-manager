@@ -1,18 +1,18 @@
 import { Menu, Inbox } from "lucide-react";
 import { Button } from "../components/ui/button"
-import { ModeToggle } from "./mode-toggle";
+import { ModeToggle } from "../components/mode-toggle";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useCallback } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { toast } from 'sonner';
 import { useHealthCheck } from "../hooks/useHealthCheck";
-import Footer from "./Footer";
+import Footer from "../components/Footer";
 
 
 export default function Home() {
   const navigate = useNavigate();
-  
+
   // Warm up backend
   useHealthCheck();
 
@@ -61,7 +61,7 @@ export default function Home() {
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-6 ">
-           
+
             <div className="text-xl sm:text-2xl md:text-3xl text-green-500 font-extrabold tracking-wide">
               Task Manager
             </div>
@@ -112,7 +112,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7, duration: 0.6 }}
           >
-             Get Started
+            Get Started
           </motion.button>
         </div>
       </motion.div>

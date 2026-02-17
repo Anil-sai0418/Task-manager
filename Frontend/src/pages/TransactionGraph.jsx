@@ -5,9 +5,9 @@ import {
   Bar, BarChart, CartesianGrid, XAxis, YAxis,
   Line, LineChart, Area, AreaChart, ResponsiveContainer, Tooltip, Legend
 } from "recharts";
-import { ChartContainer } from "./ui/chart"; // Assuming these are your Shadcn/UI wrappers
+import { ChartContainer } from "../components/ui/chart"; // Assuming these are your Shadcn/UI wrappers
 import API_BASE_URL from '../config/api';
-import Footer from './Footer';
+import Footer from '../components/Footer';
 
 // --- Constants & Config ---
 const CURRENCY_FORMATTER = new Intl.NumberFormat('en-IN', {
