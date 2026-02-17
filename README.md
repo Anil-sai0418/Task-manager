@@ -149,55 +149,52 @@ FRONTEND_URL=http://localhost:5174
 ```
 task_manager/
 ├── Backend/
-│   ├── Server.js              # Main server file
+│   ├── config/                # Database configuration
+│   │   └── db.js
+│   ├── controllers/           # Business logic (Auth, Task, Transaction, etc.)
+│   ├── models/                # Database schemas
+│   │   ├── user.js
+│   │   ├── task.js
+│   │   ├── transation.js
+│   │   ├── like.js
+│   │   └── visitor.js
+│   ├── routes/                # API route definitions
+│   │   ├── authRoutes.js
+│   │   ├── taskRoutes.js
+│   │   ├── transactionRoutes.js
+│   │   ├── userRoutes.js
+│   │   ├── visitorRoutes.js
+│   │   └── likeRoutes.js
+│   ├── Server.js              # Main application entry point
 │   ├── package.json           # Backend dependencies
-│   ├── DEPLOYMENT.md          # Deployment guide
-│   └── models/
-│       ├── user.js            # User schema
-│       ├── task.js            # Task schema
-│       ├── transation.js       # Transaction schema
-│       ├── like.js            # Like/Heart schema
-│       └── visitor.js         # Visitor tracking schema
+│   └── DEPLOYMENT.md          # Deployment guide
 │
 ├── Frontend/
 │   ├── src/
-│   │   ├── App.jsx            # Main app component
-│   │   ├── main.jsx           # Entry point
-│   │   ├── components/        # React components
-│   │   │   ├── Login.jsx
-│   │   │   ├── register.jsx
-│   │   │   ├── Home.jsx
-│   │   │   ├── List.jsx
-│   │   │   ├── Data.jsx
-│   │   │   ├── TransactionGraph.jsx
-│   │   │   ├── Footer.jsx
-│   │   │   ├── private.jsx
-│   │   │   ├── 404.jsx
-│   │   │   ├── data/          # Transaction components
-│   │   │   ├── list/          # Task components
+│   │   ├── components/        # Reusable UI components
+│   │   │   ├── data/          # Transaction-specific components
+│   │   │   ├── list/          # Task-specific components
 │   │   │   ├── shared/        # Shared components
 │   │   │   └── ui/            # UI components (Radix + Tailwind)
-│   │   ├── context/
-│   │   │   ├── Usercontext.jsx
-│   │   │   └── languageUtils.js
+│   │   ├── pages/             # Application Pages
+│   │   │   ├── Home.jsx
+│   │   │   ├── Login.jsx
+│   │   │   ├── Register.jsx
+│   │   │   ├── List.jsx       # Task Dashboard
+│   │   │   ├── Data.jsx       # Transaction View
+│   │   │   ├── TransactionGraph.jsx
+│   │   │   ├── Private.jsx
+│   │   │   └── NotFound.jsx
+│   │   ├── context/           # React Context State
 │   │   ├── hooks/             # Custom React hooks
-│   │   │   ├── useTasks.js
-│   │   │   ├── useTransactions.js
-│   │   │   ├── useVisitor.js
-│   │   │   └── useLike.js
-│   │   ├── utils/
-│   │   │   └── pdfGenerator.js
-│   │   └── config/
-│   │       └── api.js         # API configuration
-│   ├── public/
-│   │   ├── manifest.json
-│   │   ├── robots.txt
-│   │   ├── sitemap.xml
-│   │   └── service-worker.js
+│   │   ├── config/            # API & App Config
+│   │   ├── utils/             # Helper utilities
+│   │   ├── App.jsx            # Main app component
+│   │   └── main.jsx           # Entry point
+│   ├── public/                # Static assets (manifest, robots.txt)
 │   ├── package.json
 │   ├── vite.config.js
-│   ├── tailwind.config.js
-│   └── vercel.json            # Vercel deployment config
+│   └── tailwind.config.js
 │
 └── README.md                  # This file
 ```
