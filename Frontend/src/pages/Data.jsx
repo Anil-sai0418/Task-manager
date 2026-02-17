@@ -200,6 +200,7 @@ export default function Viewdata() {
             {/* Filter Panel */}
             <FilterPanel
                 showFilters={showFilters}
+                onClose={() => setShowFilters(false)}
                 sortBy={sortBy}
                 setSortBy={setSortBy}
                 sortOrder={sortOrder}
