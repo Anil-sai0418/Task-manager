@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { 
-  User, 
-  Camera, 
-  MapPin, 
-  Phone, 
-  LogOut, 
-  Settings, 
-  X, 
+import {
+  User,
+  Camera,
+  MapPin,
+  Phone,
+  LogOut,
+  Settings,
+  X,
   Check,
   Mail,
   Edit2,
@@ -20,7 +20,7 @@ export default function ProfileDropdown({ userId }) {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  
+
   // State
   const [userProfile, setUserProfile] = useState({
     name: '',
@@ -29,7 +29,7 @@ export default function ProfileDropdown({ userId }) {
     address: '',
     profileImage: null
   });
-  
+
   const dropdownRef = useRef(null);
 
   // --- Handlers ---
@@ -52,7 +52,7 @@ export default function ProfileDropdown({ userId }) {
   const handleSaveProfile = async () => {
     // Optimistic UI update
     setIsEditing(false);
-    
+
     try {
       const response = await fetch(`${API_BASE_URL}/update-profile`, {
         method: "PUT",
@@ -152,17 +152,17 @@ export default function ProfileDropdown({ userId }) {
         {/* Active Status Dot */}
         <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-white dark:border-gray-900 rounded-full shadow-sm"></span>
       </button>
-      
+
       {/* --- Dropdown Menu --- */}
       {menuOpen && (
-        <div 
+        <div
           className="absolute right-0 top-14 w-80 origin-top-right animate-in fade-in slide-in-from-top-2 duration-200"
         >
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden ring-1 ring-black/5">
-            
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden ring-1 ring-black/5">
+
             {/* Header Section */}
-            <div className="relative bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-gray-800 dark:to-gray-800 p-6 pb-8 border-b border-gray-100 dark:border-gray-700">
-              <button 
+            <div className="relative bg-gray-200 dark:from-gray-800 dark:to-gray-800 p-6 pb-8 border-b border-gray-100 dark:border-gray-700">
+              <button
                 onClick={() => setMenuOpen(false)}
                 className="absolute top-4 right-4 text-gray-600 bg-gray-200 p-1 rounded-sm dark:bg-gray-500 dark:text-white transition-colors"
               >
@@ -199,7 +199,7 @@ export default function ProfileDropdown({ userId }) {
                   </div>
                   <span className="truncate">{userProfile.phone || 'No phone added'}</span>
                 </div>
-                
+
                 <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-white">
                   <div className="w-6 h-6 rounded-sm  bg-blue-100 dark:bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
                     <MapPin size={14} />
@@ -221,7 +221,7 @@ export default function ProfileDropdown({ userId }) {
                 <SquarePen size={16} />
                 Edit
               </button>
-              
+
               <button
                 onClick={handleLogout}
                 className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-sm font-semibold text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/20 hover:border-rose-200 transition-all shadow-sm"
@@ -236,43 +236,57 @@ export default function ProfileDropdown({ userId }) {
 
       {/* --- Edit Profile Modal --- */}
       {isEditing && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-in fade-in duration-200">
-          <div 
-            className="modal-content w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200"
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-in fade-in duration-300">
+          <div
+            className="modal-content w-full max-w-lg bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden border border-white/20 dark:border-gray-800 animate-in zoom-in-95 slide-in-from-bottom-5 duration-300"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
-              <h3 className="text-lg font-bold text-gray-800 dark:text-white flex items-center gap-2">
-                <Edit2 size={18} className="text-emerald-500" />
-                Edit Profile
-              </h3>
+            <div className="relative px-6 py-5 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gradient-to-r from-emerald-50/50 to-teal-50/50 dark:from-emerald-900/10 dark:to-teal-900/10">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-full text-emerald-600 dark:text-emerald-400">
+                  <Edit2 size={18} />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white leading-none">
+                    Edit Profile
+                  </h3>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    Update your personal details
+                  </p>
+                </div>
+              </div>
               <button
                 onClick={() => setIsEditing(false)}
-                className="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-600 transition-colors"
+                className="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-200/50 dark:hover:bg-gray-800/50 hover:text-gray-600 dark:hover:text-gray-300 transition-all duration-200"
               >
                 <X size={18} />
               </button>
             </div>
 
             {/* Modal Body */}
-            <div className="p-6 space-y-6 bg-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-              {/* Image Upload */}
-              <div className="flex justify-center">
-                <div className="relative group">
-                  <div className="w-28 h-28 rounded-full overflow-hidden border-4 border-emerald-100 dark:border-emerald-900/50 shadow-lg bg-white dark:bg-gray-800 ring-2 ring-offset-2 ring-emerald-200 dark:ring-emerald-900 ring-offset-white dark:ring-offset-gray-800">
-                    <img
-                      src={userProfile.profileImage || "https://via.placeholder.com/150"}
-                      alt="Profile"
-                      className="w-full h-full object-cover"
-                    />
+            <div className="p-5 md:p-6 space-y-6 overflow-y-auto max-h-[75vh]">
+
+              {/* Image Upload Section */}
+              <div className="flex flex-col items-center justify-center gap-3">
+                <div className="relative group cursor-pointer" onClick={() => document.getElementById('editProfileImage').click()}>
+                  <div className="w-24 h-24 rounded-full p-1 border-2 border-dashed border-emerald-200 dark:border-emerald-800 group-hover:border-emerald-500 transition-colors duration-300">
+                    <div className="w-full h-full rounded-full overflow-hidden relative">
+                      <img
+                        src={userProfile.profileImage || "https://via.placeholder.com/150"}
+                        alt="Profile"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                        <Camera className="text-white" size={24} />
+                      </div>
+                    </div>
                   </div>
-                  <label 
-                    htmlFor="editProfileImage" 
-                    className="absolute bottom-0 right-0 w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-500 text-white rounded-full flex items-center justify-center shadow-lg cursor-pointer hover:from-emerald-600 hover:to-teal-600 transition-all border-4 border-white dark:border-gray-800 hover:scale-110"
-                  >
-                    <Camera size={18} />
-                  </label>
+
+                  <div className="absolute -bottom-1 -right-1 w-10 h-10 bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-lg border-4 border-white dark:border-gray-900 group-hover:scale-110 transition-transform duration-300">
+                    <Edit2 size={14} />
+                  </div>
+
                   <input
                     id="editProfileImage"
                     type="file"
@@ -281,34 +295,78 @@ export default function ProfileDropdown({ userId }) {
                     className="hidden"
                   />
                 </div>
+                <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">
+                  Click to change avatar
+                </p>
               </div>
 
               {/* Form Fields */}
-              <div className="space-y-5">
-                <div className="space-y-2">
-                  <label className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider ml-1 block">Phone Number</label>
+              <div className="space-y-4">
+                {/* Name & Email Row */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">
+                      Full Name
+                    </label>
+                    <div className="relative group">
+                      <User className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-emerald-500 transition-colors" size={16} />
+                      <input
+                        type="text"
+                        value={userProfile.name}
+                        onChange={(e) => handleProfileUpdate('name', e.target.value)}
+                        placeholder="John Doe"
+                        className="w-full pl-10 pr-3 py-2.5 bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all dark:text-white text-gray-900 placeholder-gray-400 text-sm"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">
+                      Email address
+                    </label>
+                    <div className="relative group opacity-75 cursor-not-allowed">
+                      <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+                      <input
+                        type="email"
+                        value={userProfile.email}
+                        readOnly
+                        disabled
+                        className="w-full pl-10 pr-3 py-2.5 bg-gray-100 dark:bg-gray-800/30 border border-gray-200 dark:border-gray-700 rounded-xl outline-none text-gray-500 dark:text-gray-400 cursor-not-allowed text-sm"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Phone */}
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">
+                    Phone Number
+                  </label>
                   <div className="relative group">
-                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-emerald-500 dark:text-emerald-400 group-focus-within:text-emerald-600" size={18} />
+                    <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-emerald-500 transition-colors" size={16} />
                     <input
                       type="tel"
                       value={userProfile.phone}
                       onChange={(e) => handleProfileUpdate('phone', e.target.value)}
                       placeholder="+1 (555) 000-0000"
-                      className="w-full pl-12 pr-4 py-3.5 bg-white dark:bg-gray-700/50 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white text-gray-900 placeholder-gray-400 dark:placeholder-gray-500 shadow-sm hover:border-emerald-300 dark:hover:border-emerald-600 font-medium"
+                      className="w-full pl-10 pr-3 py-2.5 bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all dark:text-white text-gray-900 text-sm placeholder-gray-400"
                     />
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider ml-1 block">Address</label>
+                {/* Address */}
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">
+                    Address
+                  </label>
                   <div className="relative group">
-                    <MapPin className="absolute left-4 top-3.5 text-emerald-500 dark:text-emerald-400 group-focus-within:text-emerald-600" size={18} />
+                    <MapPin className="absolute left-3.5 top-3.5 text-gray-400 group-focus-within:text-emerald-500 transition-colors" size={16} />
                     <textarea
                       value={userProfile.address}
                       onChange={(e) => handleProfileUpdate('address', e.target.value)}
                       placeholder="123 Main St, City, Country"
-                      rows="3"
-                      className="w-full pl-12 pr-4 py-3.5 bg-white dark:bg-gray-700/50 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none transition-all dark:text-white text-gray-900 placeholder-gray-400 dark:placeholder-gray-500 shadow-sm hover:border-emerald-300 dark:hover:border-emerald-600 font-medium resize-none"
+                      rows="2"
+                      className="w-full pl-10 pr-3 py-2.5 bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all dark:text-white text-gray-900 text-sm placeholder-gray-400 resize-none leading-relaxed"
                     />
                   </div>
                 </div>
@@ -316,18 +374,18 @@ export default function ProfileDropdown({ userId }) {
             </div>
 
             {/* Modal Footer */}
-            <div className="p-6 border-t-2 border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 flex gap-3">
+            <div className="px-6 py-4 md:py-6 border-t border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/50 flex flex-col-reverse sm:flex-row gap-3">
               <button
                 onClick={() => setIsEditing(false)}
-                className="flex-1 px-6 py-3.5 rounded-xl border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 font-bold hover:bg-gray-100 dark:hover:bg-gray-600 hover:border-gray-400 dark:hover:border-gray-500 transition-all shadow-sm active:scale-95"
+                className="flex-1 px-6 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-transparent text-gray-700 dark:text-gray-300 font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-all active:scale-[0.98]"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSaveProfile}
-                className="flex-1 px-6 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold hover:from-emerald-600 hover:to-teal-600 shadow-lg shadow-emerald-500/40 hover:shadow-emerald-500/60 transition-all flex justify-center items-center gap-2 active:scale-95"
+                className="flex-1 px-6 py-3 rounded-xl bg-gray-200 text-black dark:text-white dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 font-semibold shadow-lg shadow-gray-500/25 transition-all flex justify-center items-center gap-2 active:scale-[0.98]"
               >
-                <Check size={20} />
+                <Check size={18} />
                 Save Changes
               </button>
             </div>

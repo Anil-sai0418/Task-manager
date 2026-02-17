@@ -173,7 +173,7 @@ export default function Viewdata() {
                 onCreditClick={handleOpenCreditModal}
                 onDebitClick={handleOpenDebitModal}
                 onDownloadPDF={handleDownloadPDF}
-                onShareLink={() => navigate(`/List/${params.id}/graph`)}
+                onShareLink={() => navigate(`/List/${params.id}/graph`, { state: { taskName } })}
                 onShareApp={() => setShowShareModal(true)}
                 onLogout={() => window.location.href = "/login"}
                 showDropdown={showDropdown}

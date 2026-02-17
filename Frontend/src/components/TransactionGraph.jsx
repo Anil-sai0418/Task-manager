@@ -1,12 +1,13 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { ArrowLeft, TrendingUp, TrendingDown, Wallet } from 'lucide-react';
-import { 
-  Bar, BarChart, CartesianGrid, XAxis, YAxis, 
-  Line, LineChart, Area, AreaChart, ResponsiveContainer, Tooltip, Legend 
+import {
+  Bar, BarChart, CartesianGrid, XAxis, YAxis,
+  Line, LineChart, Area, AreaChart, ResponsiveContainer, Tooltip, Legend
 } from "recharts";
 import { ChartContainer } from "./ui/chart"; // Assuming these are your Shadcn/UI wrappers
 import API_BASE_URL from '../config/api';
+import Footer from './Footer';
 
 // --- Constants & Config ---
 const CURRENCY_FORMATTER = new Intl.NumberFormat('en-IN', {
@@ -98,7 +99,7 @@ const StatCard = ({ title, amount, type, icon: Icon }) => {
     negative: "text-orange-600 dark:text-orange-400 bg-orange-100 dark:bg-orange-900/30"
   };
 
-  const activeColor = type === 'balance' 
+  const activeColor = type === 'balance'
     ? (amount >= 0 ? colorClass.neutral : colorClass.negative)
     : colorClass[type];
 
@@ -147,10 +148,13 @@ const CustomTooltip = ({ active, payload }) => {
 export default function TransactionGraph() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const [chartType, setChartType] = useState('bar');
-  
+
   // Use the custom hook
-  const { chartData, totals, taskName, isLoading } = useTransactionData(id);
+  const { chartData, totals, taskName: fetchedTaskName, isLoading } = useTransactionData(id);
+
+  const taskName = location.state?.taskName || fetchedTaskName;
 
   // Common props for all charts to enforce DRY
   const commonChartProps = {
@@ -185,7 +189,7 @@ export default function TransactionGraph() {
         </LineChart>
       );
     }
-    
+
     if (chartType === 'area') {
       return (
         <AreaChart {...commonChartProps}>
@@ -218,39 +222,36 @@ export default function TransactionGraph() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4 md:p-8 font-sans">
-      <div className="max-w-7xl mx-auto space-y-6">
-        
+      <div className="max-w-7xl mx-auto space-y-6 mb-10">
+
         {/* Header Section */}
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <button
               onClick={() => navigate(-1)}
-              className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+              className="p-2 rounded-full hover:bg-gray-300 bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-700 transition-colors"
               aria-label="Go back"
             >
               <ArrowLeft className="h-6 w-6 text-gray-700 dark:text-gray-300" />
             </button>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                {taskName || 'Transaction Analytics'}
+              <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+                Transaction Analytics  of {taskName || 'project finances'}
               </h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Overview of project finances
-              </p>
+
             </div>
           </div>
-          
+
           {/* Chart Controls */}
-          <div className="bg-white dark:bg-gray-800 p-1 rounded-lg border border-gray-200 dark:border-gray-700 flex shadow-sm">
-            {['bar', 'line', ].map((type) => (
+          <div className="bg-white dark:bg-gray-800 p-1 rounded-lg border border-gray-200 dark:border-gray-700 flex w-full md:w-auto shadow-sm">
+            {['bar', 'line',].map((type) => (
               <button
                 key={type}
                 onClick={() => setChartType(type)}
-                className={`px-4 py-1.5 rounded-md text-sm font-medium capitalize transition-all ${
-                  chartType === type
-                    ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 shadow-sm'
-                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
-                }`}
+                className={`flex-1 md:flex-none px-4 py-1.5 rounded-md text-sm font-medium capitalize transition-all ${chartType === type
+                  ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900 shadow-sm'
+                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  }`}
               >
                 {type}
               </button>
@@ -283,7 +284,9 @@ export default function TransactionGraph() {
           </div>
         </div>
 
+
       </div>
+      <Footer />
     </div>
   );
 }

@@ -90,7 +90,7 @@ export default function ShareModal({ open, onOpenChange }) {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="w-[95vw] sm:w-[90vw] md:w-[85vw] lg:w-full sm:max-w-lg p-0 bg-white/95 dark:bg-[#1f1f1f]/95 backdrop-blur-xl border border-gray-200 dark:border-gray-700 shadow-2xl rounded-2xl max-h-[92vh] sm:max-h-[90vh] overflow-y-auto">
+            <DialogContent showCloseButton={false} className="w-[95vw] sm:w-[90vw] md:w-[85vw] lg:w-full sm:max-w-lg p-0 bg-white/95 dark:bg-[#1f1f1f]/95 backdrop-blur-xl border border-gray-200 dark:border-gray-700 shadow-2xl rounded-2xl max-h-[92vh] sm:max-h-[90vh] overflow-y-auto">
                 {/* Header Section with Close Button - Responsive */}
                 <div className="relative">
                     {/* Close Button - X icon positioned at top right */}
@@ -131,7 +131,7 @@ export default function ShareModal({ open, onOpenChange }) {
                         <h3 className="text-xs xs:text-sm font-semibold text-gray-600 dark:text-gray-300 mb-3 xs:mb-4 uppercase">
                             Share Via
                         </h3>
-                        
+
                         {/* Mobile: Horizontal Scroll */}
                         <div className="sm:hidden">
                             <div className="flex gap-3 xs:gap-4 overflow-x-auto overflow-y-visible py-2 px-0 hide-scrollbar">
@@ -188,11 +188,10 @@ export default function ShareModal({ open, onOpenChange }) {
                             />
                             <button
                                 onClick={handleCopy}
-                                className={`px-4 sm:px-5 py-2 sm:py-2.5 min-w-max sm:min-w-[100px] flex items-center justify-center gap-2 transition-all duration-300 rounded-full font-medium text-xs sm:text-sm whitespace-nowrap ml-auto ${
-                                    copied
+                                className={`px-4 sm:px-5 py-2 sm:py-2.5 min-w-max sm:min-w-[100px] flex items-center justify-center gap-2 transition-all duration-300 rounded-full font-medium text-xs sm:text-sm whitespace-nowrap ml-auto ${copied
                                         ? 'bg-green-500 hover:bg-green-600 text-white'
                                         : 'bg-blue-600 hover:bg-blue-700 text-white'
-                                }`}
+                                    }`}
                             >
                                 {copied ? (
                                     <>
