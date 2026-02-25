@@ -52,14 +52,14 @@ export const generateTransactionsPDF = (taskName, transactions, summary) => {
      HEADER
   ========================= */
   if (APP_LOGO_BASE64 && APP_LOGO_BASE64 !== "PASTE_YOUR_BASE64_LOGO_HERE") {
- doc.addImage(
-  APP_LOGO_BASE64,
-  "PNG",
-  25, // X position
-  6,  // Y position (closer to heading)
-  20, // Width
-  20  // Height
-);
+    doc.addImage(
+      APP_LOGO_BASE64,
+      "PNG",
+      25, // X position
+      6,  // Y position (closer to heading)
+      20, // Width
+      20  // Height
+    );
   }
   doc.setFontSize(20);
   doc.setFont(undefined, "bold");
@@ -103,7 +103,7 @@ export const generateTransactionsPDF = (taskName, transactions, summary) => {
   /* =========================
      TRANSACTIONS TITLE
   ========================= */
-// Define center position (assuming pageWidth is already defined as in your previous code)
+  // Define center position (assuming pageWidth is already defined as in your previous code)
   const centerX = pageWidth / 2;
 
   // Title
@@ -137,7 +137,7 @@ export const generateTransactionsPDF = (taskName, transactions, summary) => {
         t.time || "-",
         t.description || "No description",
         t.type === "credit" ? "Credit" : "Debit",
-        `$${t.amount.toFixed(2)}`,
+        `${t.amount.toFixed(2)}`,
       ]);
     });
 
@@ -200,14 +200,14 @@ export const generateTransactionsPDF = (taskName, transactions, summary) => {
   doc.setFontSize(11);
   doc.setTextColor(34, 197, 94);
   doc.text(
-    `Total Credit: $${totalCredit.toFixed(2)}`,
+    `Total Credit: Rs. ${totalCredit.toFixed(2)}`,
     20,
     finalY + 24
   );
 
   doc.setTextColor(239, 68, 68);
   doc.text(
-    `Total Debit: $${totalDebit.toFixed(2)}`,
+    `Total Debit: Rs. ${totalDebit.toFixed(2)}`,
     20,
     finalY + 32
   );
@@ -215,7 +215,7 @@ export const generateTransactionsPDF = (taskName, transactions, summary) => {
   doc.setFont(undefined, "bold");
   doc.setTextColor(balance >= 0 ? 34 : 239, balance >= 0 ? 197 : 68, balance >= 0 ? 94 : 68);
   doc.text(
-    `Balance: $${balance.toFixed(2)}`,
+    `Balance: Rs. ${balance.toFixed(2)}`,
     pageWidth - 20,
     finalY + 32,
     { align: "right" }
