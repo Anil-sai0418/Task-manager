@@ -161,7 +161,7 @@ export default function ProfileDropdown({ userId }) {
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden ring-1 ring-black/5">
 
             {/* Header Section */}
-            <div className="relative bg-gray-200 dark:from-gray-800 dark:to-gray-800 p-6 pb-8 border-b border-gray-100 dark:border-gray-700">
+            <div className="relative bg-gray-200 dark:bg-gray-800 p-6 pb-8 border-b border-gray-100 dark:border-gray-700">
               <button
                 onClick={() => setMenuOpen(false)}
                 className="absolute top-4 right-4 text-gray-600 bg-gray-200 p-1 rounded-sm dark:bg-gray-500 dark:text-white transition-colors"
@@ -175,7 +175,7 @@ export default function ProfileDropdown({ userId }) {
                     {userProfile.profileImage ? (
                       <img src={userProfile.profileImage} alt="" className="w-full h-full rounded-full object-cover" />
                     ) : (
-                      <div className="w-full h-full rounded-full bg-emerald-100 dark:bg-emerald-900 flex items-center justify-center text-emerald-600">
+                      <div className="w-full h-full rounded-full bg-emerald-100 dark:bg-gray-900 flex items-center justify-center text-emerald-600">
                         <User size={32} />
                       </div>
                     )}

@@ -1,6 +1,13 @@
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { EllipsisVertical, Edit2, Trash2 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function TaskCard({ task, onTaskClick, onEditTask, onDeleteTask }) {
   const navigate = useNavigate();
@@ -41,30 +48,38 @@ export default function TaskCard({ task, onTaskClick, onEditTask, onDeleteTask }
           </h2>
 
           {/* Actions */}
-          <div className="flex shrink-0 gap-2">
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onEditTask(task);
-              }}
-              className="px-2.5 py-1 text-xs font-medium rounded-md border border-gray-300/70 
-                         dark:border-gray-600 text-gray-700 dark:text-gray-200
-                         hover:bg-gray-100 dark:hover:bg-gray-800 active:scale-95 transition"
-            >
-              Edit
-            </button>
-
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onDeleteTask(task._id);
-              }}
-              className="px-2.5 py-1 text-xs font-medium rounded-md border border-red-300/70 
-                         text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20
-                         active:scale-95 transition"
-            >
-              Delete
-            </button>
+          <div className="flex shrink-0 gap-2" onClick={(e) => e.stopPropagation()}>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  className="p-1.5 text-gray-500 hover:text-gray-900 rounded-md hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none"
+                >
+                  <EllipsisVertical className="w-5 h-5" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-36">
+                <DropdownMenuItem
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onEditTask(task);
+                  }}
+                  className="cursor-pointer flex items-center gap-2"
+                >
+                  <Edit2 className="w-4 h-4" />
+                  <span>Edit</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDeleteTask(task._id);
+                  }}
+                  className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-900/20 flex items-center gap-2"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  <span>Delete</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
 
