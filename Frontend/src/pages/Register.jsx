@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react";
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, Check } from 'lucide-react';
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import API_BASE_URL from '../config/api';
@@ -19,6 +19,14 @@ export default function Register(){
   const [showPassword, setShowPassword] = useState(false);
   
   const navigate = useNavigate();
+
+  const isComparing = confirmPassword.length > 0;
+  const isFullyMatched =
+    userDetails.password &&
+    confirmPassword &&
+    userDetails.password === confirmPassword;
+
+  const passwordChars = userDetails.password.split("");
 
   function handleInput(event) {
     setUserDetails((prevState) => {
@@ -136,36 +144,89 @@ export default function Register(){
               className="relative"
             >
               <input
-                type={showPassword ? "text" : "password"}
+                type={showPassword && !isComparing ? "text" : "password"}
                 placeholder="Enter password"
                 name="password"
                 minLength={6}
                 maxLength={20}
                 value={userDetails.password}
                 onChange={handleInput}
-                className="w-full bg-transparent border-b border-cyan-400/50 text-white placeholder-gray-400 py-2 tracking-wide text-sm focus:outline-none focus:border-cyan-300"
+                className={`w-full bg-transparent border-b border-cyan-400/50 py-2 tracking-wide text-sm focus:outline-none focus:border-cyan-300 ${
+                  isComparing ? "text-transparent caret-white" : "text-white"
+                }`}
                 required
               />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-0 flex items-center px-3 text-cyan-300"
-              >
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </button>
+
+              {/* Comparison Dots */}
+              {isComparing && (
+                <div className="absolute inset-0 flex items-center gap-1 pointer-events-none px-1">
+                  {passwordChars.map((char, index) => {
+                    let bg = "bg-gray-500";
+
+                    if (confirmPassword[index]) {
+                      bg =
+                        confirmPassword[index] === char
+                          ? "bg-green-400"
+                          : "bg-red-400";
+                    }
+
+                    const isMatch = confirmPassword[index] === char;
+
+                    return (
+                      <motion.div
+                        key={index}
+                        initial={{ scale: 0.8 }}
+                        animate={{
+                          scale: isMatch ? [1, 1.4, 1] : 1,
+                        }}
+                        transition={{ duration: 0.2 }}
+                        className={`w-2 h-2 rounded-full ${bg}`}
+                      />
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Icon Logic */}
+              {!isComparing && !isFullyMatched && (
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 flex items-center px-3 text-cyan-300"
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              )}
+
+         
             </motion.div>
             
-            <motion.input
+            <motion.div
               initial={{ x: -50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.7 }}
-              type={showPassword ? "text" : "password"}
-              placeholder="Re-enter password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full bg-transparent border-b border-cyan-400/50 text-white placeholder-gray-400 py-2 tracking-wide text-sm focus:outline-none focus:border-cyan-300"
-              required
-            />
+              className="relative"
+            >
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Re-enter password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full bg-transparent border-b border-cyan-400/50 text-white placeholder-gray-400 py-2 tracking-wide text-sm focus:outline-none focus:border-cyan-300"
+                required
+              />
+
+              {isFullyMatched && (
+                <motion.div
+                  initial={{ scale: 0.5, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="absolute inset-y-0 right-0 flex items-center px-3 text-green-400"
+                >
+                  <Check size={20} />
+                </motion.div>
+              )}
+            </motion.div>
             
             <motion.button
               initial={{ scale: 0.8, opacity: 0 }}
